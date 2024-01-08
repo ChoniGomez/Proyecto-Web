@@ -1,9 +1,9 @@
 <?php
 require_once('Config\App\Controller.php');
-class Home extends Controller{
-    
+class Usuarios extends Controller {
     public function index(){
-        $this->views->getView($this, 'index');
+        print_r($this->model->getUsuario());
     }
+
 }
 ?>
