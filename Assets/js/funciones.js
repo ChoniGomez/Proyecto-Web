@@ -1,3 +1,33 @@
+let tblUsuarios;
+//verificar si se cargo, codigo extraido de https://datatables.net/manual/ajax
+document.addEventListener("DOMContentLoaded", function(){
+    tblUsuarios = $('#tblUsuarios').DataTable( {
+        ajax: {
+            url: base_url + "Usuarios/listar",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'usuario',
+        },
+        {
+            'data' : 'nombre',
+        },
+        {
+            'data' : 'caja'
+        },
+        {
+            'data' : 'estado'
+        },
+        {
+            'data' : 'acciones'
+        }    
+        ]
+    } );
+})
+
 function frmLogin(e) {
     e.preventDefault();
     const usuario = document.getElementById("usuario");
@@ -33,4 +63,9 @@ function frmLogin(e) {
             }
         }
     }
+}
+
+// funcion para mostrar el formulario de nuevo usuario
+function frmUsuario() {
+    $("#nuevo_usuario").modal("show");
 }
