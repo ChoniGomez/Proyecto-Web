@@ -27,7 +27,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" id="frmUsuarios">
+                <form method="post" id="frmUsuario">
                     <div class="form-group">
                         <label for="usuario">Usuario</label>
                         <input id="usuario" class="form-control" type="text" name="usuario" placeholder="Usuario">
@@ -54,11 +54,11 @@
                         <label for="caja">Caja</label>
                         <select id="caja" class="form-control" name="caja">
                             <?php foreach ($data['cajas'] as $row) {?>
-                            <option><?php echo $row['caja']; ?></option>
+                            <option value="<?php echo $row['id'];?>"><?php echo $row['caja']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
-                    <button class="btn btn-primary" type="button">Registrar</button>
+                    <button class="btn btn-primary" type="button" onclick="registrarUser(event);">Registrar</button>
                 </form>
             </div>
         </div>
