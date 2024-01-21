@@ -1,6 +1,6 @@
 <?php
 require_once('Config\App\Controller.php');
-class Medidas extends Controller {
+class Categorias extends Controller {
     
     public function __construct() {
         session_start();
@@ -16,21 +16,21 @@ class Medidas extends Controller {
 
 
     public function listar(){
-        $data = $this->model->getMedidas();
+        $data = $this->model->getCategorias();
          for ($i=0; $i < count($data); $i++) { 
-             // codigo para mostrar el estado la medida
+             // codigo para mostrar el estado la categoria
              if ($data[$i]['estado'] == 1) {
                 $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
-                // codigo para agregar botones de editar y eliminar a cada medida que devuelvo
+                // codigo para agregar botones de editar y eliminar a cada categoria que devuelvo
                 $data[$i]['acciones'] = '<div>
-                <button class="btn btn-primary" type="button" onclick="editarMed('.$data[$i]['id'].');"><i class="fa fa-edit"></i> Editar</button>
-                <button class="btn btn-danger" type="button" onclick="eliminarMed('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i> Eliminar</button>
+                <button class="btn btn-primary" type="button" onclick="editarCat('.$data[$i]['id'].');"><i class="fa fa-edit"></i> Editar</button>
+                <button class="btn btn-danger" type="button" onclick="eliminarCat('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i> Eliminar</button>
                 </div>';
              }else{
                 $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
-                // codigo para agregar botones de reactivar a cada medida que devuelvo
+                // codigo para agregar botones de reactivar a cada categoria que devuelvo
                 $data[$i]['acciones'] = '<div>
-                <button class="btn btn-success" type="button" onclick="reactivarMed('.$data[$i]['id'].');"><i class="fa fa-check"></i> Reactivar</button>
+                <button class="btn btn-success" type="button" onclick="reactivarCat('.$data[$i]['id'].');"><i class="fa fa-check"></i> Reactivar</button>
                 </div>';
              }
         }
@@ -40,30 +40,29 @@ class Medidas extends Controller {
 
     public function registrar() {
         $nombre = $_POST['nombre'];
-        $nombre_corto = $_POST['nombre_corto'];
         $id = $_POST['id'];
-        if (empty($nombre_corto) || empty($nombre)) {
+        if (empty($nombre)) {
             $msg = "Todos los campos son obligatorios";
         }else {
             if ($id =="") {// en este caso se agrega uno nuevo xq no tiene id
-                // aca se crea la medida
-                $data = $this->model->registrarMedida($nombre, $nombre_corto);
-                // verificar si el usuario se creo de manera exitosa
+                // aca se crea la categoria
+                $data = $this->model->registrarCategoria($nombre);
+                // verificar si la categoria se creo de manera exitosa
                 if ($data == "ok") {
                     $msg = "si";
                 }else if($data == "existe") {
-                    $msg = "La Medida ya existe";
+                    $msg = "La categoría ya existe";
                 }else {
-                    $msg = "Error al registrar la medida";
+                    $msg = "Error al registrar la categoría";
                 }                
             }else{
-                // aca se modifica la medida
-                $data = $this->model->modificarMedida($nombre, $nombre_corto, $id);
-                // verificar si la medida se modifico de manera exitosa
+                // aca se modifica la categoria
+                $data = $this->model->modificarCategoria($nombre, $id);
+                // verificar si la categoria se modifico de manera exitosa
                 if ($data == "modificado") {
                     $msg = "modificado";
                 }else {
-                    $msg = "Error al modificar la medida";
+                    $msg = "Error al modificar la categoria";
                 }
             }
                
@@ -73,28 +72,28 @@ class Medidas extends Controller {
     }
 
     public function editar(int $id){        
-        $data = $this->model->editarMed($id);
+        $data = $this->model->editarCat($id);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 
     public function eliminar($id){
-        $data = $this->model->eliminarMedida($id);
+        $data = $this->model->eliminarCategoria($id);
         if ($data == 1) {
             $msg = "ok";
         }else{
-            $msg = "Error al eliminar la medida";
+            $msg = "Error al eliminar la categoria";
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
 
     public function reactivar($id){
-        $data = $this->model->reactivarMedida(1, $id);
+        $data = $this->model->reactivarCategoria(1, $id);
         if ($data == 1) {
             $msg = "ok";
         }else{
-            $msg = "Error al reactivar la medida";
+            $msg = "Error al reactivar la categoria";
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

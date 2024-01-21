@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes, tblMedidas;
+let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos;
 //verificar si se cargo, codigo extraido de https://datatables.net/manual/ajax
 document.addEventListener("DOMContentLoaded", function(){
     // para cargar la tabla de usuarios
@@ -81,48 +81,61 @@ document.addEventListener("DOMContentLoaded", function(){
         }      
         ]
     } );
+
+    // para cargar la tabla de categorias
+    tblCategorias = $('#tblCategorias').DataTable( {
+        ajax: {
+            url: base_url + "Categorias/listar",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'nombre',
+        },
+        {
+            'data' : 'estado'
+        },
+        {
+            'data' : 'acciones'
+        }      
+        ]
+    } );
+
+    // para cargar la tabla de productos
+    tblProductos = $('#tblProductos').DataTable( {
+        ajax: {
+            url: base_url + "Productos/listar",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'codigo',
+        },
+        {
+            'data' : 'descripcion',
+        },
+        {
+            'data' : 'precio_venta'
+        },
+        {
+            'data' : 'cantidad'
+        },
+        {
+            'data' : 'estado'
+        },
+        {
+            'data' : 'acciones'
+        }    
+        ]
+    } );
 })
 
 
 /*---------------------------------------------------------------- FUNCIONES USUARIOS -------------------------------- */
-
-// funcion para loguear el usuario
-function frmLogin(e) {
-    e.preventDefault();
-    const usuario = document.getElementById("usuario");
-    const clave = document.getElementById("clave");
-    // verificar si los campos estan vacios
-    if (usuario.value == "") {
-        clave.classList.remove("is-invalid");
-        usuario.classList.add("is-invalid");
-        usuario.focus();
-    }else if (clave.value == "") {
-        usuario.classList.remove("is-invalid");
-        clave.classList.add("is-invalid");
-        clave.focus();
-    } else {
-        // peticion mediante ajax si los campos no estan vacios
-        const url = base_url + "Usuarios/validar";
-        const frm = document.getElementById("frmLogin");
-        const http = new XMLHttpRequest();
-        http.open("POST", url, true);
-        http.send(new FormData(frm));
-        http.onreadystatechange = function () {
-            // if que verifica si esta listo
-            if (this.readyState == 4 && this.status == 200) {
-                const res = JSON.parse(this.responseText);
-                if (res == "ok") {
-                    // enviar a la ventana principal del usuario
-                    window.location = base_url + "Usuarios";                    
-                }else{
-                    //mostrar la alerta en el login
-                    document.getElementById("alerta").classList.remove("d-none");
-                    document.getElementById("alerta").innerHTML = res;
-                }
-            }
-        }
-    }
-}
 
 // funcion para mostrar el formulario de nuevo usuario
 function frmUsuario() {
@@ -667,6 +680,381 @@ function reactivarMed(id){
                         icon: "success"
                     });
                     tblMedidas.ajax.reload();//recargar la tabla de medidas
+                }else{
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: res,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+
+
+          
+        }
+      });      
+}
+
+/*---------------------------------------------------------------- FUNCIONES CATEGORIAS -------------------------------- */
+
+// funcion para mostrar el formulario de nueva categoria
+function frmCategoria() {
+    document.getElementById("title").innerHTML = "Nueva Categoria";
+    document.getElementById("btnAccion").innerHTML = "Registrar";
+    document.getElementById("frmCategoria").reset();
+    $("#nueva_categoria").modal("show");
+    document.getElementById("id").value = "";
+}
+
+// funcion para registrar una categoria
+function registrarCategoria(e) {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre");
+    // verificar si los campos estan vacios
+    if (nombre.value == "") {
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Todos los campos son obligatorios",
+            showConfirmButton: false,
+            timer: 3000
+          });
+    } else {
+        // peticion mediante ajax si los campos no estan vacios
+        const url = base_url + "Categorias/registrar";
+        const frm = document.getElementById("frmCategoria");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                     Swal.fire({
+                         position: "center",
+                         icon: "success",
+                         title: "Categoría registrada con éxito.",
+                         showConfirmButton: false,
+                         timer: 3000
+                       });
+                       tblCategorias.ajax.reload();//recargar la tabla de categorias
+                       frm.reset();
+                       $("#nueva_categoria").modal("hide"); 
+                }else if (res == "modificado") {// verificar si se modifico la categoria
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Categoría modificada con éxito.",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    tblCategorias.ajax.reload();//recargar la tabla de categorias
+                    $("#nueva_categoria").modal("hide"); 
+                }else{
+                        Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: res,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            }
+        }
+    }
+}
+
+// funcion para modificar una categoria registrada
+function editarCat(id) {
+    document.getElementById("title").innerHTML = "Actualizar Categoria";
+    document.getElementById("btnAccion").innerHTML = "Actualizar";
+    // peticion mediante ajax si los campos no estan vacios
+    const url = base_url + "Categorias/editar/"+id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);            
+            document.getElementById("id").value = res.id;// este id esta oculto en el formulario
+            document.getElementById("nombre").value = res.nombre;
+            $("#nueva_categoria").modal("show");
+        }
+    }
+    
+}
+
+// funcion para eliminar una cat,egoria
+function eliminarCat(id){
+    Swal.fire({
+        title: "Estas seguro?",
+        text: "La Categoría no se eliminará de manera permanente, solo cambiará al estado de inactivo.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // aca se va a modificar el estado de inactivo a la categoria seleccionada
+            const url = base_url + "Categorias/eliminar/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: "Categoría eliminada con éxito!",
+                        icon: "success"
+                    });
+                    tblCategorias.ajax.reload();//recargar la tabla de categorias
+                }else{
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: res,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+
+
+          
+        }
+      });      
+}
+
+// funcion para reactivar una categoria
+function reactivarCat(id){
+    Swal.fire({
+        title: "Estas seguro de reactivar la categoría?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // aca se va a modificar el estado de inactivo a la categoria selecionada
+            const url = base_url + "Categorias/reactivar/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: "Categoría reactivada con éxito!",
+                        icon: "success"
+                    });
+                    tblCategorias.ajax.reload();//recargar la tabla de categorias
+                }else{
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: res,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+
+
+          
+        }
+      });      
+}
+
+/*---------------------------------------------------------------- FUNCIONES PRODUCTOS -------------------------------- */
+
+// funcion para mostrar el formulario de nuevo producto
+function frmProducto() {
+    document.getElementById("title").innerHTML = "Nuevo Producto";
+    document.getElementById("btnAccion").innerHTML = "Registrar";
+    //document.getElementById("claves").classList.remove("d-none");
+    document.getElementById("frmProducto").reset();
+    $("#nuevo_producto").modal("show");
+    document.getElementById("id").value = "";
+}
+
+// funcion para registrar un producto
+function registrarProducto(e) {
+    e.preventDefault();
+    const codigo = document.getElementById("codigo");
+    const descripcion = document.getElementById("descripcion");
+    const precio_compra = document.getElementById("precio_compra");
+    const precio_venta = document.getElementById("precio_venta");
+    const id_medida = document.getElementById("medida");
+    const id_cat = document.getElementById("categoria");
+    // verificar si los campos estan vacios
+    if (codigo.value == "" || descripcion.value == "" || precio_compra.value == ""|| precio_venta.value == ""|| id_medida.value == ""|| id_cat.value == "") {
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Todos los campos son obligatorios",
+            showConfirmButton: false,
+            timer: 3000
+          });
+    } else {
+        // peticion mediante ajax si los campos no estan vacios
+        const url = base_url + "Productos/registrar";
+        const frm = document.getElementById("frmProducto");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                     Swal.fire({
+                         position: "center",
+                         icon: "success",
+                         title: "Producto registrado con éxito.",
+                         showConfirmButton: false,
+                         timer: 3000
+                       });
+                       tblProductos.ajax.reload();//recargar la tabla de productos
+                       frm.reset();
+                       $("#nuevo_producto").modal("hide"); 
+                }else if (res == "modificado") {// verificar si se modifico el producto
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Producto modificado con éxito.",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    tblProductos.ajax.reload();//recargar la tabla de productos
+                    $("#nuevo_producto").modal("hide"); 
+                }else{
+                        Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: res,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            }
+        }
+    }
+}
+
+// funcion para modificar el producto registrado
+function editarProd(id) {
+    document.getElementById("title").innerHTML = "Actualizar Producto";
+    document.getElementById("btnAccion").innerHTML = "Actualizar";
+    // peticion mediante ajax si los campos no estan vacios
+    const url = base_url + "Productos/editar/"+id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);            
+            document.getElementById("id").value = res.id;// este id esta oculto en el formulario
+            document.getElementById("codigo").value = res.codigo;
+            document.getElementById("descripcion").value = res.descripcion;
+            document.getElementById("precio_compra").value = res.precio_compra;
+            document.getElementById("precio_venta").value = res.precio_venta;
+            document.getElementById("medida").value = res.id_medida;
+            document.getElementById("categoria").value = res.id_categoria;
+            $("#nuevo_producto").modal("show");
+        }
+    }
+    
+}
+
+// funcion para eliminar un usuario
+function eliminarProd(id){
+    Swal.fire({
+        title: "Estas seguro?",
+        text: "El Producto no se eliminará de manera permanente, solo cambiará al estado de inactivo.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // aca se va a modificar el estado de inactivo a el producto selecionado
+            const url = base_url + "Productos/eliminar/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: "Producto eliminado con éxito!",
+                        icon: "success"
+                    });
+                    tblProductos.ajax.reload();//recargar la tabla de productos
+                }else{
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: res,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+
+
+          
+        }
+      });      
+}
+
+// funcion para reactivar un usuario
+function reactivarProd(id){
+    Swal.fire({
+        title: "Estas seguro de reactivar el Producto?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // aca se va a modificar el estado de inactivo a el producto selecionado
+            const url = base_url + "Productos/reactivar/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: "Producto reactivado con éxito!",
+                        icon: "success"
+                    });
+                    tblProductos.ajax.reload();//recargar la tabla de usuarios
                 }else{
                     Swal.fire({
                         title: "Mensaje!",

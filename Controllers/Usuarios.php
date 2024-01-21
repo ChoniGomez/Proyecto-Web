@@ -4,13 +4,13 @@ class Usuarios extends Controller {
     
     public function __construct() {
         session_start();
-        if (empty($_SESSION['activo'])) {//verifico si la session no esta activada
-            header("location: ".base_url);
-        }
         parent::__construct();
     }
 
     public function index(){
+        if (empty($_SESSION['activo'])) {//verifico si la session no esta activada
+            header("location: ".base_url);
+        }
         $data['cajas'] = $this->model->getCajas();
         $this->views->getView($this, "index", $data);
     }
@@ -47,14 +47,14 @@ class Usuarios extends Controller {
                 $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
                 // codigo para agregar botones de editar y eliminar a cada usuario que devuelvo
                 $data[$i]['acciones'] = '<div>
-                <button class="btn btn-primary" type="button" onclick="editarUser('.$data[$i]['id'].');"><i class="fa fa-edit"></i>Editar</button>
-                <button class="btn btn-danger" type="button" onclick="eliminarUser('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i>Eliminar</button>
+                <button class="btn btn-primary" type="button" onclick="editarUser('.$data[$i]['id'].');"><i class="fa fa-edit"></i> Editar</button>
+                <button class="btn btn-danger" type="button" onclick="eliminarUser('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i> Eliminar</button>
                 </div>';
              }else{
                 $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
                 // codigo para agregar botones de reactivar a cada usuario que devuelvo
                 $data[$i]['acciones'] = '<div>
-                <button class="btn btn-success" type="button" onclick="reactivarUser('.$data[$i]['id'].');">Reactivar</button>
+                <button class="btn btn-success" type="button" onclick="reactivarUser('.$data[$i]['id'].');"><i class="fa fa-check"></i> Reactivar</button>
                 </div>';
              }
         }

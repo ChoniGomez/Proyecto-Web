@@ -1,0 +1,115 @@
+<?php
+require_once('Config\App\Controller.php');
+class Productos extends Controller {
+    
+    public function __construct() {
+        session_start();
+        parent::__construct();
+    }
+
+    public function index(){
+        if (empty($_SESSION['activo'])) {//verifico si la session no esta activada
+            header("location: ".base_url);
+        }
+        $data['medidas'] = $this->model->getMedidas();
+        $data['categorias'] = $this->model->getCategorias();
+        $this->views->getView($this, "index", $data);
+    }
+
+
+    public function listar(){
+        $data = $this->model->getProductos();
+         for ($i=0; $i < count($data); $i++) { 
+             // codigo para mostrar el estado del producto
+             if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
+                // codigo para agregar botones de editar y eliminar a cada producto que devuelvo
+                $data[$i]['acciones'] = '<div>
+                <button class="btn btn-primary" type="button" onclick="editarProd('.$data[$i]['id'].');"><i class="fa fa-edit"></i> Editar</button>
+                <button class="btn btn-danger" type="button" onclick="eliminarProd('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i> Eliminar</button>
+                </div>';
+             }else{
+                $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
+                // codigo para agregar botones de reactivar a cada producto que devuelvo
+                $data[$i]['acciones'] = '<div>
+                <button class="btn btn-success" type="button" onclick="reactivarProd('.$data[$i]['id'].');"><i class="fa fa-check"></i> Reactivar</button>
+                </div>';
+             }
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function registrar() {
+        $codigo = $_POST['codigo'];
+        $descripcion = $_POST['descripcion'];
+        $precio_compra = $_POST['precio_compra'];
+        $precio_venta = $_POST['precio_venta'];
+        $medida = $_POST['medida'];
+        $categoria = $_POST['categoria'];
+        $id = $_POST['id'];
+        if (empty($codigo) || empty($descripcion)|| empty($precio_compra)|| empty($precio_venta)|| empty($medida)|| empty($categoria)) {
+            $msg = "Todos los campos son obligatorios";
+        }else {
+            if ($id =="") {// en este caso se agrega uno nuevo xq no tiene id
+                // aca se crea el producto
+                $data = $this->model->registrarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria);
+                // verificar si el producto se creo de manera exitosa
+                if ($data == "ok") {
+                    $msg = "si";
+                }else if($data == "existe") {
+                    $msg = "El producto ya existe";
+                }else {
+                    $msg = "Error al registrar el producto";
+                }                
+            }else{
+                // aca se modifica el producto
+                $data = $this->model->modificarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria, $id);
+                // verificar si el producto se modifico de manera exitosa
+                if ($data == "modificado") {
+                    $msg = "modificado";
+                }else {
+                    $msg = "Error al modificar el producto";
+                }
+            }
+               
+        }
+        echo json_encode($msg);
+        die();
+    }
+
+    public function editar(int $id){        
+        $data = $this->model->editarProducto($id);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function eliminar($id){
+        $data = $this->model->eliminarProducto($id);
+        if ($data == 1) {
+            $msg = "ok";
+        }else{
+            $msg = "Error al eliminar el producto";
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function reactivar($id){
+        $data = $this->model->reactivarProducto(1, $id);
+        if ($data == 1) {
+            $msg = "ok";
+        }else{
+            $msg = "Error al reactivar el producto";
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    // funcion para desloguearse
+    public function salir(){
+        session_destroy();
+        header("location: ".base_url);// redirecciona al login de usuario
+    }
+}
+?>

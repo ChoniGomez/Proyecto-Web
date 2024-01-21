@@ -23,14 +23,14 @@ class Clientes extends Controller {
                 $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
                 // codigo para agregar botones de editar y eliminar a cada cliente que devuelvo
                 $data[$i]['acciones'] = '<div>
-                <button class="btn btn-primary" type="button" onclick="editarCli('.$data[$i]['id'].');"><i class="fa fa-edit"></i>Editar</button>
-                <button class="btn btn-danger" type="button" onclick="eliminarCli('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i>Eliminar</button>
+                <button class="btn btn-primary" type="button" onclick="editarCli('.$data[$i]['id'].');"><i class="fa fa-edit"></i> Editar</button>
+                <button class="btn btn-danger" type="button" onclick="eliminarCli('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i> Eliminar</button>
                 </div>';
              }else{
                 $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
                 // codigo para agregar botones de reactivar a cada cliente que devuelvo
                 $data[$i]['acciones'] = '<div>
-                <button class="btn btn-success" type="button" onclick="reactivarCli('.$data[$i]['id'].');">Reactivar</button>
+                <button class="btn btn-success" type="button" onclick="reactivarCli('.$data[$i]['id'].');"><i class="fa fa-check"></i>Reactivar</button>
                 </div>';
              }
         }
