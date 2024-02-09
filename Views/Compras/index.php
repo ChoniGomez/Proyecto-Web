@@ -9,7 +9,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="codigo">Código de Barra</label>
-                        <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Ingrese el Código de Barra">
+                        <input type="hidden" id="id" name="id">
+                        <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Ingrese el Código de Barra" onkeyup="buscarCodigo(event)">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -21,7 +22,7 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <label for="cantidad">Cant</label>
-                        <input id="cantidad" class="form-control" type="number" name="cantidad">
+                        <input id="cantidad" class="form-control" type="number" name="cantidad" onkeyup="calcularPrecio(event)">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -34,15 +35,6 @@
                     <div class="form-group">
                         <label for="sub_total">Sub Total</label>
                         <input id="sub_total" class="form-control" type="text" name="sub_total" placeholder="Sub Total" disabled>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary mt-4" type="button">Generar Compra</button>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="total">Total</label>
-                        <input id="total" class="form-control" type="text" name="total" placeholder="Total" disabled>
                     </div>
                 </div>
             </div>
@@ -58,10 +50,19 @@
             <th>Cantidad</th>
             <th>Precio</th>
             <th>Sub Total</th>
-            <th>Acciones</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
     </tbody>
 </table>
+<div class="row">
+    <div class="col-md-4 ml-auto">
+        <div class="form-group">
+            <label for="total" class="font-weight-bold">Total</label>
+            <input id="total" class="form-control" type="text" name="total" placeholder="Total" disabled>
+            <button class="btn btn-primary mt-2 btn-block" type="button">Generar Compra</button>
+        </div>
+    </div>
+</div>
 <?php include "Views/Templates/footer.php" ?>

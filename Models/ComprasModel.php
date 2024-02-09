@@ -1,7 +1,7 @@
 <?php
 class ComprasModel extends Query{
 
-    private $nombre, $id, $estado;
+    private $nombre, $id, $estado, $cod;
 
     public function __construct(){
         parent::__construct();
@@ -72,6 +72,12 @@ class ComprasModel extends Query{
         $sql = "UPDATE compras SET estado = ? WHERE id = ?";
         $datos = array($this->estado, $this->id);
         $data = $this->save($sql, $datos);
+        return $data;
+    }
+
+    public function getProdCod(string $cod){
+        $sql = "SELECT * FROM productos WHERE codigo = $cod";
+        $data = $this->select($sql);
         return $data;
     }
 }

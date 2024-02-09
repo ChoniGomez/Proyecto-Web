@@ -102,10 +102,10 @@ class Compras extends Controller {
         die();
     }
 
-    // funcion para desloguearse
-    public function salir(){
-        session_destroy();
-        header("location: ".base_url);// redirecciona al login de usuario
+    public function buscarCodigo($cod){
+        $data = $this->model->getProdCod($cod);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
     }
 }
 ?>

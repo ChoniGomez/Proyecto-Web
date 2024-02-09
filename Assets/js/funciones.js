@@ -1054,29 +1054,25 @@ function reactivarProd(id){
             http.open("GET", url, true);
             http.send();
             http.onreadystatechange = function () {
-            // if que verifica si esta listo
-            if (this.readyState == 4 && this.status == 200) {
-                const res = JSON.parse(this.responseText);
-                if (res == "ok") {
-                    Swal.fire({
-                        title: "Mensaje!",
-                        text: "Producto reactivado con éxito!",
-                        icon: "success"
-                    });
-                    tblProductos.ajax.reload();//recargar la tabla de usuarios
-                }else{
-                    Swal.fire({
-                        title: "Mensaje!",
-                        text: res,
-                        icon: "error"
-                    });
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (res == "ok") {
+                        Swal.fire({
+                            title: "Mensaje!",
+                            text: "Producto reactivado con éxito!",
+                            icon: "success"
+                        });
+                        tblProductos.ajax.reload();//recargar la tabla de usuarios
+                    }else{
+                        Swal.fire({
+                            title: "Mensaje!",
+                            text: res,
+                            icon: "error"
+                        });
+                    }
                 }
             }
-        }
-
-
-
-          
         }
       });      
 }
@@ -1097,4 +1093,47 @@ function deleteImg() {
     document.getElementById("img-preview").src = '';// quitar vista previa de la imagen
     document.getElementById("imagen").value = '';
     document.getElementById("foto_actual").value = '';
+}
+
+/*---------------------------------------------------------------- FUNCIONES COMPRAS -------------------------------- */
+
+function buscarCodigo(e){
+    e.preventDefault();
+    if (e.which == 13) {// pregunta si se presiono enter
+        const cod = document.getElementById("codigo").value;
+        const url = base_url + "Compras/buscarCodigo/"+cod;
+        const http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                const res = JSON.parse(this.responseText); 
+                if (res) {
+                    document.getElementById("nombre").value = res.descripcion;
+                    document.getElementById("id").value = res.id;
+                    document.getElementById("precio").value = res.precio_compra; 
+                    document.getElementById("cantidad").focus();
+                } else {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "El Producto no existe!",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    document.getElementById("codigo").value = ''; 
+                    document.getElementById("codigo").focus();
+                }        
+            }
+        }
+    }
+}
+
+function calcularPrecio(e) {
+    e.preventDefault();
+    const cant = document.getElementById("cantidad").value;
+    const precio = document.getElementById("precio").value;
+    document.getElementById("sub_total").value = cant * precio;
 }
