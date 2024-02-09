@@ -7,6 +7,7 @@
     <thead class="thead-dark">
         <tr>
             <th>Id</th>
+            <th>Foto</th>
             <th>Código</th>
             <th>Descripción</th>
             <th>Precio</th>
@@ -29,16 +30,20 @@
             </div>
             <div class="modal-body">
                 <form method="post" id="frmProducto">
-                    <div class="form-group">
-                        <label for="codigo">Código</label>
-                        <input type="hidden" id="id" name="id">
-                        <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código del producto">
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" class="form-control" name="descripcion" placeholder="Descripción del producto" rows="3"></textarea>
-                    </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="codigo">Código</label>
+                                <input type="hidden" id="id" name="id">
+                                <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código del producto">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea id="descripcion" class="form-control" name="descripcion" placeholder="Descripción del producto" rows="3"></textarea>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="precio_compra">Precio Compra</label>
@@ -71,6 +76,20 @@
                                     <option value="<?php echo $row['id'];?>"><?php echo $row['nombre']; ?></option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Foto</label>
+                                <div class="card border-primary">
+                                    <div class="card-body">
+                                        <label for="imagen" id="icon-image" class="btn btn-primary"><i class="fas fa-image"></i></label>
+                                        <span id="icon-cerrar"></span>
+                                        <input id="imagen" class="d-none" type="file" name="imagen" onchange="preview(event)">
+                                        <input type="hidden" id="foto_actual" name="foto_actual">
+                                        <img class="img-thumbnail" id="img-preview">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>                    

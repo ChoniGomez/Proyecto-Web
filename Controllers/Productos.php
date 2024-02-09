@@ -20,21 +20,23 @@ class Productos extends Controller {
     public function listar(){
         $data = $this->model->getProductos();
          for ($i=0; $i < count($data); $i++) { 
-             // codigo para mostrar el estado del producto
-             if ($data[$i]['estado'] == 1) {
+            // codigo para mostrar las fotos de los productos
+            $data[$i]['imagen'] = '<img class="img-thumbnail" src="'.base_url. "Assets/img/" .$data[$i]['foto'].'" width = "100" >';
+            // codigo para mostrar el estado del producto
+            if ($data[$i]['estado'] == 1) {
                 $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
                 // codigo para agregar botones de editar y eliminar a cada producto que devuelvo
                 $data[$i]['acciones'] = '<div>
                 <button class="btn btn-primary" type="button" onclick="editarProd('.$data[$i]['id'].');"><i class="fa fa-edit"></i> Editar</button>
                 <button class="btn btn-danger" type="button" onclick="eliminarProd('.$data[$i]['id'].');"><i class="fa fa-trash-alt"></i> Eliminar</button>
                 </div>';
-             }else{
+            }else{
                 $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
                 // codigo para agregar botones de reactivar a cada producto que devuelvo
                 $data[$i]['acciones'] = '<div>
                 <button class="btn btn-success" type="button" onclick="reactivarProd('.$data[$i]['id'].');"><i class="fa fa-check"></i> Reactivar</button>
                 </div>';
-             }
+            }
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
@@ -48,14 +50,29 @@ class Productos extends Controller {
         $medida = $_POST['medida'];
         $categoria = $_POST['categoria'];
         $id = $_POST['id'];
+        $img = $_FILES['imagen'];
+        $name = $img['name'];
+        $tmpname = $img['tmp_name'];
+        $fecha = date("YmdHis");
         if (empty($codigo) || empty($descripcion)|| empty($precio_compra)|| empty($precio_venta)|| empty($medida)|| empty($categoria)) {
             $msg = "Todos los campos son obligatorios";
         }else {
+            if (!empty($name)) {
+                $imgNombre = $fecha . ".jpg";
+                $destino = "Assets/img/".$imgNombre;
+            } else if (!empty($_POST['foto_actual']) && empty($name)) {
+                $imgNombre = $_POST['foto_actual'];
+            } else {
+                $imgNombre = "default.jpg";
+            }
             if ($id =="") {// en este caso se agrega uno nuevo xq no tiene id
                 // aca se crea el producto
-                $data = $this->model->registrarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria);
+                $data = $this->model->registrarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria, $imgNombre);
                 // verificar si el producto se creo de manera exitosa
                 if ($data == "ok") {
+                    if (!empty($name)) {
+                        move_uploaded_file($tmpname, $destino);
+                    }
                     $msg = "si";
                 }else if($data == "existe") {
                     $msg = "El producto ya existe";
@@ -63,14 +80,23 @@ class Productos extends Controller {
                     $msg = "Error al registrar el producto";
                 }                
             }else{
+                $imgDelete = $this->model->editarProducto($id);
+                if ($imgDelete['foto'] != 'default.jpg' || $imgDelete['foto'] != "" ) {
+                    if (file_exists("Assets/img/" . $imgDelete['foto']) && $imgDelete['foto'] != 'default.jpg') {//aca tambien evito eliminar la imagen default.jpg
+                        unlink("Assets/img/" . $imgDelete['foto']); // codigo para borrar la foto de la carpeta img
+                    }
+                }
                 // aca se modifica el producto
-                $data = $this->model->modificarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria, $id);
+                $data = $this->model->modificarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria, $imgNombre, $id);
                 // verificar si el producto se modifico de manera exitosa
                 if ($data == "modificado") {
+                    if (!empty($name)) {
+                        move_uploaded_file($tmpname, $destino);
+                    }
                     $msg = "modificado";
                 }else {
                     $msg = "Error al modificar el producto";
-                }
+                }  
             }
                
         }

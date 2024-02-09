@@ -113,6 +113,9 @@ document.addEventListener("DOMContentLoaded", function(){
             'data' : 'id'
         },
         {
+            'data' : 'imagen',
+        },
+        {
             'data' : 'codigo',
         },
         {
@@ -889,6 +892,7 @@ function frmProducto() {
     document.getElementById("frmProducto").reset();
     $("#nuevo_producto").modal("show");
     document.getElementById("id").value = "";
+    deleteImg();
 }
 
 // funcion para registrar un producto
@@ -975,6 +979,11 @@ function editarProd(id) {
             document.getElementById("precio_venta").value = res.precio_venta;
             document.getElementById("medida").value = res.id_medida;
             document.getElementById("categoria").value = res.id_categoria;
+            document.getElementById("img-preview").src = base_url + 'Assets/img/' + res.foto;
+            document.getElementById("icon-cerrar").innerHTML = `<button class="btn btn-danger" onclick="deleteImg()"><i class="fa fa-times"></i></button>${res.foto}`;//agrego un boton con codigo html  ------- poner este simbolo (acento grave) ` ` para agregar el codigo
+            document.getElementById("icon-image").classList.add("d-none");
+            // codigo para ver si se va a modofocar la foto del producto
+            document.getElementById("foto_actual").value = res.foto;
             $("#nuevo_producto").modal("show");
         }
     }
@@ -1070,4 +1079,22 @@ function reactivarProd(id){
           
         }
       });      
+}
+
+// funcion para mostrar la imagen seleccionada
+function preview(e) {
+    const url = e.target.files[0];
+    const urlTemp = URL.createObjectURL(url);
+    document.getElementById("img-preview").src = urlTemp;// agregar vista previa de la imagen
+    document.getElementById("icon-image").classList.add("d-none");// 
+    document.getElementById("icon-cerrar").innerHTML = `<button class="btn btn-danger" onclick="deleteImg()"><i class="fa fa-times"></i></button>${url['name']}`;//agrego un boton con codigo html  ------- poner este simbolo (acento grave) ` ` para agregar el codigo
+}
+
+// funcion para eliminar la imagen seleccionada
+function deleteImg() {
+    document.getElementById("icon-cerrar").innerHTML = '';
+    document.getElementById("icon-image").classList.remove("d-none");
+    document.getElementById("img-preview").src = '';// quitar vista previa de la imagen
+    document.getElementById("imagen").value = '';
+    document.getElementById("foto_actual").value = '';
 }
