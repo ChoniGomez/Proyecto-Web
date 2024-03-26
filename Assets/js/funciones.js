@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function(){
             'data' : 'descripcion',
         },
         {
-            'data' : 'precio_venta'
+            'data' : 'precio_venta',
         },
         {
             'data' : 'cantidad'
@@ -1108,7 +1108,6 @@ function buscarCodigo(e){
         http.onreadystatechange = function () {
             // if que verifica si esta listo
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
                 const res = JSON.parse(this.responseText); 
                 if (res) {
                     document.getElementById("nombre").value = res.descripcion;
@@ -1136,4 +1135,127 @@ function calcularPrecio(e) {
     const cant = document.getElementById("cantidad").value;
     const precio = document.getElementById("precio").value;
     document.getElementById("sub_total").value = cant * precio;
+    if (e.which == 13) {//si se presiono la tecla enter
+        if (cant > 0) {
+            const url = base_url + "Compras/ingresar";
+            const frm = document.getElementById("frmCompra");
+            const http = new XMLHttpRequest();
+            http.open("POST", url, true);
+            http.send(new FormData(frm));
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText); 
+                    if (res == 'ok') {
+                        frm.reset();
+                        cargarDetalles(); // aca carga los detalles de la compra
+                    } else if (res == 'modificado'){
+                        frm.reset();
+                        cargarDetalles(); // aca carga los detalles de la compra
+                    }
+                }
+            }
+        }
+    }
+}
+
+cargarDetalles(); // aca carga los detalles de la compra a cada rato
+
+function cargarDetalles() {
+    const url = base_url + "Compras/listarDetalles";
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText); 
+            let html = '';
+            res['detalle'].forEach(row => {
+                // abajo hago una concatenacion a la variable html
+                html += `<tr>
+                <td>${row['id']}</td>
+                <td>${row['descripcion']}</td>
+                <td>${row['cantidad']}</td>
+                <td>${row['precio']}</td>
+                <td>${row['sub_total']}</td>
+                <td>
+                <button class="btn btn-danger" type="button" onclick="deleteDetalle(${row['id']})"><i class="fa fa-trash-alt"></i></button>
+                </td>
+                </tr>`;
+            });
+            document.getElementById("tblDetalles").innerHTML = html;
+            document.getElementById("total").value = res['total_pagar'].total;
+        }
+    }
+}
+
+function deleteDetalle(id){
+    const url = base_url + "Compras/delete/" + id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText); 
+            if (res == 'ok') {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Producto eliminado",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                cargarDetalles();
+            }else{
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Error",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+            
+        }
+    }
+}
+
+function generarCompra() {
+    Swal.fire({
+        title: "Estas seguro de generar la Compra?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Compras/registrarCompra/";
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (res == "ok") {
+                        Swal.fire({
+                            title: "Mensaje!",
+                            text: "Compra registrada con éxito!",
+                            icon: "success"
+                        });
+                    }else{
+                        Swal.fire({
+                            title: "Mensaje!",
+                            text: res,
+                            icon: "error"
+                        });
+                    }
+                }
+            }
+        }
+      });  
 }

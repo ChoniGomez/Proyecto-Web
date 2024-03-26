@@ -16,7 +16,7 @@ class ComprasModel extends Query{
     }
 
 
-    public function registrarCompra(string $nombre){
+    public function registraCompra(string $nombre){
         $this->nombre = $nombre;
         // verifica si existe una compra con el mismo nombre
         $verificar = "SELECT * FROM categorias WHERE nombre = '$this->nombre'";
@@ -79,6 +79,96 @@ class ComprasModel extends Query{
         $sql = "SELECT * FROM productos WHERE codigo = $cod";
         $data = $this->select($sql);
         return $data;
+    }
+
+    public function getProductos(int $id){
+        $sql = "SELECT * FROM productos WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    public function registrarDetalle(int $id_producto, int $id_usuario, string $precio, int $cantidad, string $sub_total){
+        $sql = "INSERT INTO detalles (id_producto, id_usuario, precio, cantidad, sub_total) VALUES (?,?,?,?,?)";
+        $datos = array ($id_producto, $id_usuario, $precio, $cantidad, $sub_total);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "ok";
+        } else {
+            $res = "error";
+        }
+        return $res;
+    }
+
+    public function getDetalles(int $id){
+        $sql = "SELECT d.*, p.id AS id_prod, p.descripcion FROM detalles d INNER JOIN productos p ON d.id_producto = p.id WHERE d.id_usuario = $id";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    public function calcularCompras(int $id_usuario){
+        $sql = "SELECT sub_total, SUM(sub_total) AS total FROM detalles WHERE id_usuario = $id_usuario";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    public function deleteDetalle(int $id){
+        $sql = "DELETE FROM detalles WHERE id = ?";
+        $datos = array($id);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "ok";
+        } else {
+            $res = "error";
+        }
+        return $res;
+    }
+
+    public function consultarDetalle(int $id_producto, int $id_usuario){
+        $sql = "SELECT * FROM detalles WHERE id_producto = $id_producto AND id_usuario = $id_usuario";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    public function modificarDetalle(string $precio, int $cantidad, string $sub_total, int $id_producto, int $id_usuario){
+        $sql = "UPDATE detalles SET precio = ?, cantidad = ?, sub_total = ? WHERE id_producto = ? AND id_usuario = ?";
+        $datos = array ($precio, $cantidad, $sub_total, $id_producto, $id_usuario);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "modificado";
+        } else {
+            $res = "error";
+        }
+        return $res;
+    }
+
+    public function registrarCompra(string $total){
+        $sql = "INSERT INTO compras (total) VALUES (?)";
+        $datos = array ($total);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "ok";
+        } else {
+            $res = "error";
+        }
+        return $res;
+    }
+
+    public function idCompra(){
+        $sql = "SELECT MAX(id) AS id FROM compras";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    public function registrarDetalleCompra(int $id_compra, int $id_producto, int $cantidad, string $precio, string $sub_total){
+        $sql = "INSERT INTO detalles_compras (id_compra, id_producto, cantidad, precio, sub_total) VALUES (?,?,?,?,?)";
+        $datos = array ($id_compra, $id_producto, $cantidad, $precio, $sub_total);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "ok";
+        } else {
+            $res = "error";
+        }
+        return $res;
     }
 }
 ?>

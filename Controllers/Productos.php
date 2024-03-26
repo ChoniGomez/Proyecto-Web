@@ -37,6 +37,9 @@ class Productos extends Controller {
                 <button class="btn btn-success" type="button" onclick="reactivarProd('.$data[$i]['id'].');"><i class="fa fa-check"></i> Reactivar</button>
                 </div>';
             }
+            // formatear el valor a moneda
+            setlocale(LC_MONETARY, 'en_US');
+            $data[$i]['precio_venta'] =  number_format($data[$i]['precio_venta'], 2);
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
@@ -81,7 +84,7 @@ class Productos extends Controller {
                 }                
             }else{
                 $imgDelete = $this->model->editarProducto($id);
-                if ($imgDelete['foto'] != 'default.jpg' || $imgDelete['foto'] != "" ) {
+                if ($imgDelete['foto'] != 'default.jpg') {
                     if (file_exists("Assets/img/" . $imgDelete['foto']) && $imgDelete['foto'] != 'default.jpg') {//aca tambien evito eliminar la imagen default.jpg
                         unlink("Assets/img/" . $imgDelete['foto']); // codigo para borrar la foto de la carpeta img
                     }
