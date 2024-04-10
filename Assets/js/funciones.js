@@ -1,6 +1,8 @@
-let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos;
+let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos, t_historial_c;
 //verificar si se cargo, codigo extraido de https://datatables.net/manual/ajax
 document.addEventListener("DOMContentLoaded", function(){
+    //para cargar el combobox con select2
+    $('#cliente').select2();
     // para cargar la tabla de usuarios
     tblUsuarios = $('#tblUsuarios').DataTable( {
         ajax: {
@@ -25,6 +27,65 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             'data' : 'acciones'
         }    
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
         ]
     } );
 
@@ -55,6 +116,65 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             'data' : 'acciones'
         }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
         ]
     } );
 
@@ -79,6 +199,65 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             'data' : 'acciones'
         }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
         ]
     } );
 
@@ -100,6 +279,65 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             'data' : 'acciones'
         }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
         ]
     } );
 
@@ -133,6 +371,228 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             'data' : 'acciones'
         }    
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
+        ]
+    } );
+
+    // para cargar la tabla del historial de compras
+    t_historial_c = $('#t_historial_c').DataTable( {
+        ajax: {
+            url: base_url + "Compras/listar_historial",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'total',
+        },
+        {
+            'data' : 'fecha'
+        },
+        {
+            'data' : 'acciones'
+        }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
+        ]
+    } );
+
+    // para cargar la tabla del historial de ventas
+    t_historial_c = $('#t_historial_v').DataTable( {
+        ajax: {
+            url: base_url + "Ventas/listar_historial_ventas",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'nombre'
+        }, 
+        {
+            'data' : 'total',
+        },       
+        {
+            'data' : 'fecha'
+        },
+        {
+            'data' : 'acciones'
+        }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
         ]
     } );
 })
@@ -1098,35 +1558,34 @@ function deleteImg() {
 /*---------------------------------------------------------------- FUNCIONES COMPRAS -------------------------------- */
 
 function buscarCodigo(e){
+    const cod = document.getElementById("codigo").value;
     e.preventDefault();
-    if (e.which == 13) {// pregunta si se presiono enter
-        const cod = document.getElementById("codigo").value;
-        const url = base_url + "Compras/buscarCodigo/"+cod;
-        const http = new XMLHttpRequest();
-        http.open("GET", url, true);
-        http.send();
-        http.onreadystatechange = function () {
-            // if que verifica si esta listo
-            if (this.readyState == 4 && this.status == 200) {
-                const res = JSON.parse(this.responseText); 
-                if (res) {
-                    document.getElementById("nombre").value = res.descripcion;
-                    document.getElementById("id").value = res.id;
-                    document.getElementById("precio").value = res.precio_compra; 
-                    document.getElementById("cantidad").focus();
-                } else {
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: "El Producto no existe!",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    document.getElementById("codigo").value = ''; 
-                    document.getElementById("codigo").focus();
-                }        
+    if (cod != '') {
+        if (e.which == 13) {// pregunta si se presiono enter
+            const url = base_url + "Compras/buscarCodigo/"+cod;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText); 
+                    if (res) {
+                        document.getElementById("nombre").value = res.descripcion;
+                        document.getElementById("id").value = res.id;
+                        document.getElementById("precio").value = res.precio_compra; 
+                        document.getElementById("cantidad").removeAttribute('disabled');
+                        document.getElementById("cantidad").focus();
+                    } else {
+                        alertas("El Producto no existe!", "warning");
+                        document.getElementById("codigo").value = ''; 
+                        document.getElementById("codigo").focus();
+                    }        
+                }
             }
         }
+    } else{
+        alertas("Ingrese el código", "warning");
     }
 }
 
@@ -1153,13 +1612,17 @@ function calcularPrecio(e) {
                         frm.reset();
                         cargarDetalles(); // aca carga los detalles de la compra
                     }
+                    document.getElementById('cantidad').setAttribute('disabled', 'disabled');
+                    document.getElementById('codigo').focus();
                 }
             }
         }
     }
 }
 
-cargarDetalles(); // aca carga los detalles de la compra a cada rato
+if (document.getElementById("tblDetalles")) {//si existe va a cargar los detalles
+    cargarDetalles(); // aca carga los detalles de la compra a cada rato
+}
 
 function cargarDetalles() {
     const url = base_url + "Compras/listarDetalles";
@@ -1200,22 +1663,24 @@ function deleteDetalle(id){
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText); 
             if (res == 'ok') {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Producto eliminado",
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+                alertas("Producto eliminado","success");
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "",
+                //     showConfirmButton: false,
+                //     timer: 3000
+                // });
                 cargarDetalles();
             }else{
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Error",
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+                alertas("Error","error");
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "error",
+                //     title: "Error",
+                //     showConfirmButton: false,
+                //     timer: 3000
+                // });
             }
             
         }
@@ -1241,18 +1706,240 @@ function generarCompra() {
                 // if que verifica si esta listo
                 if (this.readyState == 4 && this.status == 200) {
                     const res = JSON.parse(this.responseText);
-                    if (res == "ok") {
-                        Swal.fire({
-                            title: "Mensaje!",
-                            text: "Compra registrada con éxito!",
-                            icon: "success"
-                        });
+                    if (res.msg == "ok") {
+                        alertas("Compra registrada con éxito!","success");
+                        // Swal.fire({
+                        //     title: "Mensaje!",
+                        //     text: "",
+                        //     icon: "success"
+                        // });
+                        /// Aqui se muestra el PDF de la compra cada vez que generamos una compra
+                        const ruta = base_url + 'Compras/generarPdfCompra/' + res.id_compra;
+                        window.open(ruta);
+                        // recargar la pagina despues de 2 segundos
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 300);
                     }else{
-                        Swal.fire({
-                            title: "Mensaje!",
-                            text: res,
-                            icon: "error"
-                        });
+                        alertas(res,"error");
+                        // Swal.fire({
+                        //     title: "Mensaje!",
+                        //     text: res,
+                        //     icon: "error"
+                        // });
+                    }
+                }
+            }
+        }
+      });  
+}
+
+/*---------------------------------------------------------------- FUNCIONES EMPRESAS -------------------------------- */
+
+function modificarEmpresa(){
+    const frm = document.getElementById('frmEmpresa');
+    const url = base_url + "Administracion/modificarDatosEmpresa";
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            if (res == 'ok') {
+                alertas("Datos modificados con éxito!","success");
+                // Swal.fire({
+                //     title: "Mensaje!",
+                //     text: "Datos modificados con éxito!",
+                //     icon: "success"
+                // });
+            }else{
+                alertas(res,"error");
+                // Swal.fire({
+                //     title: "Mensaje!",
+                //     text: res,
+                //     icon: "error"
+                // });
+            }
+        }
+    }
+}
+
+/*---------------------------------------------------------------- FUNCIONES ALERTAS DE MENSAJES -------------------------------- */
+
+function alertas(mensaje, icono) {
+    Swal.fire({
+        position: "center",
+        icon: icono,
+        text: mensaje,
+        showConfirmButton: false,
+        timer: 3000
+      });
+}
+
+/*---------------------------------------------------------------- FUNCIONES VENTAS -------------------------------- */
+function buscarCodigoVenta(e){
+    const cod = document.getElementById("codigo").value;
+    e.preventDefault();
+    if (cod != '') {
+        if (e.which == 13) {// pregunta si se presiono enter
+            const url = base_url + "Ventas/buscarCodigo/"+cod;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText); 
+                    if (res) {
+                        document.getElementById("nombre").value = res.descripcion;
+                        document.getElementById("id").value = res.id;
+                        document.getElementById("precio").value = res.precio_venta; 
+                        document.getElementById("cantidad").removeAttribute('disabled');
+                        document.getElementById("cantidad").focus();
+                    } else {
+                        alertas("El Producto no existe!", "warning");
+                        document.getElementById("codigo").value = ''; 
+                        document.getElementById("codigo").focus();
+                    }        
+                }
+            }
+        }
+    } else{
+        alertas("Ingrese el código", "warning");
+    }
+}
+
+function calcularPrecioVenta(e) {
+    e.preventDefault();
+    const cant = document.getElementById("cantidad").value;
+    const precio = document.getElementById("precio").value;
+    document.getElementById("sub_total").value = cant * precio;
+    if (e.which == 13) {//si se presiono la tecla enter
+        if (cant > 0) {
+            const url = base_url + "Ventas/ingresar";
+            const frm = document.getElementById("frmVenta");
+            const http = new XMLHttpRequest();
+            http.open("POST", url, true);
+            http.send(new FormData(frm));
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText); 
+                    if (res == 'ok') {
+                        frm.reset();
+                        cargarDetallesVentas(); // aca carga los detalles de la compra
+                    } else if (res == 'modificado'){
+                        frm.reset();
+                        cargarDetallesVentas(); // aca carga los detalles de la compra
+                    }
+                    document.getElementById('cantidad').setAttribute('disabled', 'disabled');
+                    document.getElementById('codigo').focus();
+                }
+            }
+        }
+    }
+}
+
+if (document.getElementById("tblDetallesVentas")) {//si existe va a cargar los detalles
+    cargarDetallesVentas(); // aca carga los detalles de la compra a cada rato
+}
+
+function cargarDetallesVentas() {
+    const url = base_url + "Ventas/listarDetalles";
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText); 
+            let html = '';
+            res['detalle'].forEach(row => {
+                // abajo hago una concatenacion a la variable html
+                html += `<tr>
+                <td>${row['id']}</td>
+                <td>${row['descripcion']}</td>
+                <td>${row['cantidad']}</td>
+                <td>${row['precio']}</td>
+                <td>${row['sub_total']}</td>
+                <td>
+                <button class="btn btn-danger" type="button" onclick="deleteDetalleVentas(${row['id']})"><i class="fa fa-trash-alt"></i></button>
+                </td>
+                </tr>`;
+            });
+            document.getElementById("tblDetallesVentas").innerHTML = html;
+            document.getElementById("total").value = res['total_pagar'].total;
+        }
+    }
+}
+
+function deleteDetalleVentas(id){
+    const url = base_url + "Ventas/delete/" + id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText); 
+            if (res == 'ok') {
+                alertas("Producto eliminado","success");
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "",
+                //     showConfirmButton: false,
+                //     timer: 3000
+                // });
+                cargarDetallesVentas();
+            }else{
+                alertas("Error","error");
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "error",
+                //     title: "Error",
+                //     showConfirmButton: false,
+                //     timer: 3000
+                // });
+            }
+            
+        }
+    }
+}
+
+function generarVenta() {
+    Swal.fire({
+        title: "Estas seguro de generar la Venta?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const id_cliente = document.getElementById('cliente').value;
+            const url = base_url + "Ventas/registrarVenta/" + id_cliente;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    const res = JSON.parse(this.responseText);
+                    if (res.msg == "ok") {
+                        alertas("Venta registrada con éxito!","success");
+                        /// Aqui se muestra el PDF de la compra cada vez que generamos una compra
+                        const ruta = base_url + 'Ventas/generarPdfVenta/' + res.id_venta;
+                        window.open(ruta);
+                        // recargar la pagina despues de 2 segundos
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 300);
+                    }else{
+                        alertas(res,"error");
                     }
                 }
             }

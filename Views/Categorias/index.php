@@ -3,18 +3,20 @@
     <li class="breadcrumb-item active">Categorias</li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="frmCategoria();">Nueva Categoria <i class="fa fa-plus"></i></button>
-<table class="table table-light" id="tblCategorias">
-    <thead class="thead-dark">
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody> 
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-light" id="tblCategorias">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody> 
+        </tbody>
+    </table>
+</div>
 <div id="nueva_categoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

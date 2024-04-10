@@ -24,7 +24,7 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <label for="cantidad">Cant</label>
-                        <input id="cantidad" class="form-control" type="number" name="cantidad" onkeyup="calcularPrecio(event)">
+                        <input id="cantidad" class="form-control" type="number" name="cantidad" onkeyup="calcularPrecio(event)" disabled>
                     </div>
                 </div>
                 <div class="col-md-2">

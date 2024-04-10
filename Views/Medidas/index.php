@@ -4,18 +4,18 @@
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="frmMedida();">Nueva Medida <i class="fa fa-plus"></i></button>
 <table class="table table-light" id="tblMedidas">
-    <thead class="thead-dark">
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Nombre Corto</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody> 
-    </tbody>
-</table>
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Nombre Corto</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody> 
+        </tbody>
+    </table>
 <div id="nueva_medida" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -3,21 +3,23 @@
     <li class="breadcrumb-item active">Clientes</li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="frmCliente();">Nuevo Cliente <i class="fa fa-plus"></i></button>
-<table class="table table-light" id="tblClientes">
-    <thead class="thead-dark">
-        <tr>
-            <th>Id</th>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody> 
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-light" id="tblClientes">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody> 
+        </tbody>
+    </table>
+</div>
 <div id="nuevo_cliente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

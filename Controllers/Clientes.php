@@ -17,7 +17,7 @@ class Clientes extends Controller {
 
     public function listar(){
         $data = $this->model->getClientes();
-         for ($i=0; $i < count($data); $i++) { 
+        for ($i=0; $i < count($data); $i++) { 
              // codigo para mostrar el estado del usuario
              if ($data[$i]['estado'] == 1) {
                 $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
