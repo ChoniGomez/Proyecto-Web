@@ -173,13 +173,14 @@ class Ventas extends Controller {
             $id_venta = $this->model->idVenta();
             foreach ($detalle as $row) {
                 $cantidad = $row['cantidad'];
+                $descuento = $row['descuento'];
                 $precio = $row['precio'];
                 $id_producto = $row['id_producto'];
-                $sub_total = $cantidad * $precio;
-                $this->model->registrarDetalleVenta($id_venta['id'], $id_producto, $cantidad, $precio, $sub_total);
+                $sub_total = ($cantidad * $precio) - $descuento;
+                $this->model->registrarDetalleVenta($id_venta['id'], $id_producto, $cantidad, $descuento, $precio, $sub_total);
                 // incrementar el stock del producto
                 $stock_actual = $this->model->getProductos($id_producto);
-                $stock = $stock_actual['cantidad'] + $cantidad;
+                $stock = $stock_actual['cantidad'] - $cantidad;//si se vende, disminuye el stock
                 $this->model->actualizarStock($stock, $id_producto);
             }
             $vaciarDetalle = $this->model->vaciarDetalleVentasTemp($id_usuario);
@@ -196,6 +197,7 @@ class Ventas extends Controller {
     public function generarPdfVenta($id_venta){
         // consulta a la BD para obtener los datos de la empresa
         $empresa = $this->model->getEmpresa();
+        $descuento = $this->model->getDescuento($id_venta);
         // obtener todos los productos de los detalles de una compra
         $productos = $this->model->getProductosVentas($id_venta);
         require('Libraries/fpdf/fpdf.php');
@@ -297,6 +299,13 @@ class Ventas extends Controller {
             $pdf->Cell(20, 5, number_format($row['sub_total'], 2, '.', ','), 0, 1, 'L');
         }
 
+        /// descuento
+        $pdf->Ln();//un salto de linea
+        $pdf->SetFont('Arial','B', 7);
+        $pdf->Cell(80, 5, 'Descuento total', 0, 1, 'R');
+        $pdf->SetFont('Arial','', 7);
+        $pdf->Cell(80, 5, number_format($descuento['total'], 2, '.', ','), 0, 1, 'R');
+
         /// sub total
         $pdf->Ln();//un salto de linea
         $pdf->SetFont('Arial','B', 7);
@@ -316,6 +325,27 @@ class Ventas extends Controller {
         }
 
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function calcularDescuento($datos){
+        $array = explode(",", $datos);
+        $id = $array[0];
+        $desc = $array[1];
+        if (empty($id) || empty($desc)) {
+            $msg = array('msg' => 'Error', 'icono' => 'error');
+        } else {
+            $descuento_actual = $this->model->verificarDescuento($id);
+            $descuento_total = $descuento_actual['descuento'] + $desc;
+            $sub_total = ($descuento_actual['cantidad'] * $descuento_actual['precio']) - $descuento_total;
+            $data = $this->model->actualizarDescuento($descuento_total, $sub_total, $id);  
+            if ($data == 'ok') {
+                $msg = array('msg' => 'Descuento aplicado con éxito', 'icono' => 'success');
+            } else {
+                $msg = array('msg' => 'Error al aplicar el descuento', 'icono' => 'error');
+            }     
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
 }

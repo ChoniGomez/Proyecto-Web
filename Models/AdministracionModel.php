@@ -14,6 +14,12 @@ class AdministracionModel extends Query{
         return $data;
     }
 
+    ///// funcion para contar los elementos de una tabla
+    public function getDatos(string $table){
+        $sql = "SELECT COUNT(*) AS total FROM $table";
+        $data = $this->select($sql);
+        return $data;
+    }
 
     public function modificarEmpresa(string $cuit, string $razonSocial, string $direccion, string $telefono, string $correo, string $localidad, string $provincia, string $cp, string $mensaje, int $id){
         $this->id = $id;
@@ -35,6 +41,26 @@ class AdministracionModel extends Query{
             $res = "error";
         }        
         return $res;
+    }
+
+    public function getStockMinimo() {
+        /// muestra los primeros 10 con stock minimo de un total menor a 15
+        $sql = "SELECT * FROM productos WHERE cantidad < 15 ORDER BY cantidad DESC LIMIT 10";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    public function getProductosMasVendidos() {
+        // muestra los primeros 10 productos mas vendidos
+        $sql = "SELECT d.id_producto, d.cantidad, p.id, p.descripcion, SUM(d.cantidad) AS total FROM detalles_ventas d INNER JOIN productos p ON p.id = d.id_producto GROUP BY d.id_producto ORDER BY d.cantidad DESC LIMIT 10";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    public function getVentas(){
+        $sql = "SELECT COUNT(*) AS total FROM ventas WHERE fecha > CURDATE()";
+        $data = $this->select($sql);
+        return $data;
     }
 }
 ?>

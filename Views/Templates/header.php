@@ -14,14 +14,14 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">Post Venta</a>
+            <a class="navbar-brand" href="<?php echo base_url; ?>Administracion/home">Post Venta</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Mi Perfil</a>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#cambiar_pass">Mi Perfil</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<?php echo base_url; ?>Usuarios/salir">Cerrar Sesión</a>
                     </div>
@@ -73,7 +73,7 @@
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVentas" aria-expanded="false" aria-controls="collapseVentas">
-                                <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart mr-2 text-primary"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-cash-register mr-2 text-primary"></i></div>
                                 Salidas
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-primary"></i></div>
                             </a>

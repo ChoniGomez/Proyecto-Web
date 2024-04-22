@@ -25,8 +25,8 @@ function frmLogin(e) {
             if (this.readyState == 4 && this.status == 200) {
                 const res = JSON.parse(this.responseText);
                 if (res == "ok") {
-                    // enviar a la ventana principal del usuario
-                    window.location = base_url + "Usuarios";                    
+                    // enviar a la ventana principal
+                    window.location = base_url + "Administracion/home";                    
                 }else{
                     //mostrar la alerta en el login
                     document.getElementById("alerta").classList.remove("d-none");

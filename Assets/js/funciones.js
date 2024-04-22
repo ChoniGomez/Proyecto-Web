@@ -1748,18 +1748,8 @@ function modificarEmpresa(){
             const res = JSON.parse(this.responseText);
             if (res == 'ok') {
                 alertas("Datos modificados con éxito!","success");
-                // Swal.fire({
-                //     title: "Mensaje!",
-                //     text: "Datos modificados con éxito!",
-                //     icon: "success"
-                // });
             }else{
                 alertas(res,"error");
-                // Swal.fire({
-                //     title: "Mensaje!",
-                //     text: res,
-                //     icon: "error"
-                // });
             }
         }
     }
@@ -1861,6 +1851,8 @@ function cargarDetallesVentas() {
                 <td>${row['id']}</td>
                 <td>${row['descripcion']}</td>
                 <td>${row['cantidad']}</td>
+                <td><input class="form-control" placeholder="Desc" type="text" onkeyup="calcularDescuento(event, ${row['id']})"></input></td>
+                <td>${row['descuento']}</td>
                 <td>${row['precio']}</td>
                 <td>${row['sub_total']}</td>
                 <td>
@@ -1870,6 +1862,28 @@ function cargarDetallesVentas() {
             });
             document.getElementById("tblDetallesVentas").innerHTML = html;
             document.getElementById("total").value = res['total_pagar'].total;
+        }
+    }
+}
+
+function calcularDescuento(e, id) {
+    e.preventDefault();
+    if (e.target.value == '') {
+        alertas('Ingrese el descuento', 'warning');
+    }else{
+        if (e.which == 13) {
+            const url = base_url + "Ventas/calcularDescuento/" + id + "/" + e.target.value;///envio el id y el descuento
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText); 
+                    alertas(res.msg, res.icono);
+                    cargarDetallesVentas();
+                }
+            }
         }
     }
 }
@@ -1885,23 +1899,9 @@ function deleteDetalleVentas(id){
             const res = JSON.parse(this.responseText); 
             if (res == 'ok') {
                 alertas("Producto eliminado","success");
-                // Swal.fire({
-                //     position: "center",
-                //     icon: "success",
-                //     title: "",
-                //     showConfirmButton: false,
-                //     timer: 3000
-                // });
                 cargarDetallesVentas();
             }else{
                 alertas("Error","error");
-                // Swal.fire({
-                //     position: "center",
-                //     icon: "error",
-                //     title: "Error",
-                //     showConfirmButton: false,
-                //     timer: 3000
-                // });
             }
             
         }
@@ -1946,3 +1946,102 @@ function generarVenta() {
         }
       });  
 }
+
+/*---------------------------------------------------------------- FUNCIONES CAMBIAR CONTRASEÑA -------------------------------- */
+
+function cambiarPass(e) {
+    e.preventDefault();
+    const actual = document.getElementById('clave_actual').value;
+    const nueva = document.getElementById('clave_nueva').value;
+    const confirmar = document.getElementById('confirmar_clave').value;
+    if (actual == '' || nueva == '' || confirmar == '') {
+        alertas("Todos los campos son obligatorios", "warning");
+    } else {
+        const url = base_url + "Usuarios/cambiarPass";
+        const frm = document.getElementById("frmCambiarPass");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            alertas(res.msg, res.icono);
+            $("#cambiar_pass").modal("hide"); 
+            frm.reset();
+        }
+        }
+    }
+}
+
+/*---------------------------------------------------------------- FUNCIONES PIE CHART EJEMPLO -------------------------------- */
+if (document.getElementById("stockMinimo")) {//si existe va a carga los productos con poco stock
+    reporteStockMinimo();
+}
+
+if (document.getElementById("productosMasVendidos")) {//si existe va a los graficos de productos mas vendidos
+    productosMasVendidos();
+}
+
+function reporteStockMinimo() {
+    const url = base_url + "Administracion/reporteStock";
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            let nombre = [];
+            let cantidad = [];
+            for (let index = 0; index < res.length; index++) {
+                nombre.push(res[index]['descripcion']);
+                cantidad.push(res[index]['cantidad']);
+                
+            }
+            var ctx = document.getElementById("stockMinimo");
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: nombre,
+                    datasets: [{
+                    data: cantidad,
+                    backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+                    }],
+                },
+            });
+        }
+    }
+}
+
+function productosMasVendidos() {
+    const url = base_url + "Administracion/productosMasVendidos";
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            let nombre = [];
+            let cantidad = [];
+            for (let index = 0; index < res.length; index++) {
+                nombre.push(res[index]['descripcion']);
+                cantidad.push(res[index]['total']);
+                
+            }
+            var ctx = document.getElementById("productosMasVendidos");
+            var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: nombre,
+                datasets: [{
+                data: cantidad,
+                backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+                }],
+            },
+            });
+        }
+    }
+}
+
