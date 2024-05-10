@@ -15,7 +15,7 @@ class UsuariosModel extends Query{
     }
     public function getUsuarios() {
         // trae a todos los usuarios con sus cajas
-        $sql = "SELECT u.*, c.id as id_caja, c.caja FROM usuarios u INNER JOIN cajas c WHERE u.id_caja = c.id";
+        $sql = "SELECT u.*, c.id as id_caja, c.nombre_caja FROM usuarios u INNER JOIN cajas c WHERE u.id_caja = c.id";
         $data = $this->selectAll($sql);
         return $data;
     }

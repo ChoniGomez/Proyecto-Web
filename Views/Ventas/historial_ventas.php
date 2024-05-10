@@ -12,7 +12,8 @@
                         <th>Cliente</th>
                         <th>Total</th>
                         <th>Fecha y Hora</th>
-                        <th>Ver PDF</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>

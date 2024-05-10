@@ -287,18 +287,46 @@ class Compras extends Controller {
     public function listar_historial(){
         $data = $this->model->getHistorialCompras();
         for ($i=0; $i < count($data); $i++) { 
-            $data[$i]['acciones'] = '<div>
-               <a class="btn btn-danger" href="'.base_url."Compras/generarPdfCompra/".$data[$i]['id'].'" target="_blank"><i class="fa fa-file-pdf"></i> Ver</a>
-            </div>';
-            $data[$i]['total'] = number_format($data[$i]['total'], 2, '.', ',');
+            // codigo para mostrar el estado de la compra
+            if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge badge-success">Completado</span>';
+                // codigo para agregar botones de editar y eliminar a cada compra que devuelvo
+                $data[$i]['acciones'] = '<div>
+                <button class="btn btn-warning" onclick="anularCompra('.$data[$i]['id'].')"><i class="fa fa-ban"></i></button>
+                <a class="btn btn-danger" href="'.base_url."Compras/generarPdfCompra/".$data[$i]['id'].'" target="_blank"><i class="fa fa-file-pdf"></i> Ver</a>
+                </div>';
+                $data[$i]['total'] = number_format($data[$i]['total'], 2, '.', ',');
+             }else{
+                $data[$i]['estado'] = '<span class="badge badge-danger">Anulado</span>';
+                // codigo para agregar botones de reactivar a cada compra que devuelvo
+                $data[$i]['acciones'] = '<div>
+                <a class="btn btn-danger" href="'.base_url."Compras/generarPdfCompra/".$data[$i]['id'].'" target="_blank"><i class="fa fa-file-pdf"></i> Ver</a>
+                </div>';
+                $data[$i]['total'] = number_format($data[$i]['total'], 2, '.', ',');
+             }            
         }
 
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 
-    //////////////////////////////////////////////////////////////// CODIGO PARA VENTAS //////////////////////////////////////////////////////////////////
+    public function anularCompra($id_compra){
+        $data = $this->model->deleteCompra($id_compra);
+        // descuento la cantidad al anular la compra
+        foreach ($data as $row) {
+            $stock_actual = $this->model->getProductos($row['id_producto']);
+            $stock = $stock_actual['cantidad'] - $row['cantidad'];
+            $this->model->actualizarStock($stock, $row['id_producto']);
+        }
+        $anular = $this->model->anularCompra($id_compra);
+        if ($anular == 'ok') {
+            $msg = array('msg' => 'Compra anulada', 'icono' => 'success');
+        } else {
+            $msg = array('msg' => 'Error al anular la Compra', 'icono' => 'error');
+        }
+        echo json_encode($msg);
+        die();
+    }
 
-    
 }
 ?>

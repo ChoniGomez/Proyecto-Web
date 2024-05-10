@@ -244,5 +244,23 @@ class VentasModel extends Query{
         $data = $this->select($sql);
         return $data;
     }
+
+    public function deleteVenta(int $id_venta){
+        $sql = "SELECT v.*, d.* FROM ventas v INNER JOIN detalles_ventas d ON v.id = d.id_venta  WHERE v.id = $id_venta";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    public function anularVenta(int $id_venta){
+        $sql = "UPDATE ventas SET estado = ? WHERE id = ?";
+        $datos = array(0, $id_venta);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = 'ok';
+        } else {
+            $res = 'error';
+        }        
+        return $res;
+    }
 }
 ?>

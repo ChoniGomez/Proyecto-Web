@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos, t_historial_c;
+let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos, t_historial_c, t_historial_v, tblCajas;
 //verificar si se cargo, codigo extraido de https://datatables.net/manual/ajax
 document.addEventListener("DOMContentLoaded", function(){
     //para cargar el combobox con select2
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
             'data' : 'nombre',
         },
         {
-            'data' : 'caja'
+            'data' : 'nombre_caja'
         },
         {
             'data' : 'estado'
@@ -449,6 +449,9 @@ document.addEventListener("DOMContentLoaded", function(){
             'data' : 'fecha'
         },
         {
+            'data' : 'estado'
+        },
+        {
             'data' : 'acciones'
         }      
         ],
@@ -514,7 +517,7 @@ document.addEventListener("DOMContentLoaded", function(){
     } );
 
     // para cargar la tabla del historial de ventas
-    t_historial_c = $('#t_historial_v').DataTable( {
+    t_historial_v = $('#t_historial_v').DataTable( {
         ajax: {
             url: base_url + "Ventas/listar_historial_ventas",
             dataSrc: ''
@@ -530,6 +533,89 @@ document.addEventListener("DOMContentLoaded", function(){
         },       
         {
             'data' : 'fecha'
+        },       
+        {
+            'data' : 'estado'
+        },
+        {
+            'data' : 'acciones'
+        }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
+        ]
+    } );
+
+    // para cargar la tabla de cajas
+    tblCajas = $('#tblCajas').DataTable( {
+        ajax: {
+            url: base_url + "Cajas/listarCajas",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'nombre_caja'
+        },       
+        {
+            'data' : 'estado'
         },
         {
             'data' : 'acciones'
@@ -1708,11 +1794,6 @@ function generarCompra() {
                     const res = JSON.parse(this.responseText);
                     if (res.msg == "ok") {
                         alertas("Compra registrada con éxito!","success");
-                        // Swal.fire({
-                        //     title: "Mensaje!",
-                        //     text: "",
-                        //     icon: "success"
-                        // });
                         /// Aqui se muestra el PDF de la compra cada vez que generamos una compra
                         const ruta = base_url + 'Compras/generarPdfCompra/' + res.id_compra;
                         window.open(ruta);
@@ -1722,17 +1803,40 @@ function generarCompra() {
                         }, 300);
                     }else{
                         alertas(res,"error");
-                        // Swal.fire({
-                        //     title: "Mensaje!",
-                        //     text: res,
-                        //     icon: "error"
-                        // });
                     }
                 }
             }
         }
       });  
 }
+
+function anularCompra(id) {
+    Swal.fire({
+        title: "Estas seguro de anular la Compra?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Compras/anularCompra/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    alertas(res.msg, res.icono);
+                    t_historial_c.ajax.reload();
+                }
+            }
+        }
+      });  
+}
+
 
 /*---------------------------------------------------------------- FUNCIONES EMPRESAS -------------------------------- */
 
@@ -1947,6 +2051,33 @@ function generarVenta() {
       });  
 }
 
+function anularVenta(id) {
+    Swal.fire({
+        title: "Estas seguro de anular la Venta?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Ventas/anularVenta/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                // if que verifica si esta listo
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    alertas(res.msg, res.icono);
+                    t_historial_v.ajax.reload();
+                }
+            }
+        }
+      });  
+}
+
 /*---------------------------------------------------------------- FUNCIONES CAMBIAR CONTRASEÑA -------------------------------- */
 
 function cambiarPass(e) {
@@ -2045,3 +2176,184 @@ function productosMasVendidos() {
     }
 }
 
+/*---------------------------------------------------------------- FUNCIONES CAJAS -------------------------------- */
+
+// funcion para mostrar el formulario de nueva caja
+function frmCaja() {
+    document.getElementById("title").innerHTML = "Nueva Caja";
+    document.getElementById("btnAccion").innerHTML = "Registrar";
+    document.getElementById("frmCaja").reset();
+    $("#nueva_caja").modal("show");
+    document.getElementById("id").value = "";
+}
+
+// funcion para registrar una caja
+function registrarCaja(e) {
+    e.preventDefault();
+    const nombre_caja = document.getElementById("nombre_caja");
+    // verificar si los campos estan vacios
+    if (nombre_caja.value == "") { 
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Todos los campos son obligatorios",
+            showConfirmButton: false,
+            timer: 3000
+          });
+    } else {
+        // peticion mediante ajax si los campos no estan vacios
+        const url = base_url + "Cajas/registrarCaja";
+        const frm = document.getElementById("frmCaja");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                     Swal.fire({
+                         position: "center",
+                         icon: "success",
+                         title: "Caja registrada con éxito.",
+                         showConfirmButton: false,
+                         timer: 3000
+                       });
+                       tblCajas.ajax.reload();//recargar la tabla de cajas
+                       frm.reset();
+                       $("#nueva_caja").modal("hide"); 
+                }else if (res == "modificado") {// verificar si se modifico la caja
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Caja modificada con éxito.",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    tblCajas.ajax.reload();//recargar la tabla de cajas
+                    $("#nueva_caja").modal("hide"); 
+                }else{
+                        Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: res,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+            }
+        }
+    }
+}
+
+// funcion para eliminar una caja
+function eliminarCaja(id){
+    Swal.fire({
+        title: "Estas seguro?",
+        text: "La caja no se eliminará de manera permanente, solo cambiará al estado de inactivo.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // aca se va a modificar el estado de inactivo a la caja selecionada
+            const url = base_url + "Cajas/eliminar/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: "Caja eliminada con éxito!",
+                        icon: "success"
+                    });
+                    tblCajas.ajax.reload();//recargar la tabla de cajas
+                }else{
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: res,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+
+
+          
+        }
+      });      
+}
+
+// funcion para reactivar una caja
+function reactivarCaja(id){
+    Swal.fire({
+        title: "Estas seguro de reactivar la caja?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // aca se va a modificar el estado de inactivo a la caja selecionada
+            const url = base_url + "Cajas/reactivar/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: "Caja reactivada con éxito!",
+                        icon: "success"
+                    });
+                    tblCajas.ajax.reload();//recargar la tabla de cajas
+                }else{
+                    Swal.fire({
+                        title: "Mensaje!",
+                        text: res,
+                        icon: "error"
+                    });
+                }
+            }
+        }
+
+
+
+          
+        }
+      });      
+}
+
+// funcion para modificar la caja registrada
+function editarCaja(id) {
+    document.getElementById("title").innerHTML = "Actualizar Caja";
+    document.getElementById("btnAccion").innerHTML = "Actualizar";
+    // peticion mediante ajax si los campos no estan vacios
+    const url = base_url + "Cajas/editar/"+id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {            
+            const res = JSON.parse(this.responseText);            
+            document.getElementById("id").value = res.id;// este id esta oculto en el formulario
+            document.getElementById("nombre_caja").value = res.nombre_caja;
+            $("#nueva_caja").modal("show");
+        }
+    }
+    
+}

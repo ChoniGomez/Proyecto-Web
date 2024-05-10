@@ -318,10 +318,23 @@ class Ventas extends Controller {
     public function listar_historial_ventas(){
         $data = $this->model->getHistorialVentas();
         for ($i=0; $i < count($data); $i++) { 
-            $data[$i]['acciones'] = '<div>
-               <a class="btn btn-danger" href="'.base_url."Ventas/generarPdfVenta/".$data[$i]['id'].'" target="_blank"><i class="fa fa-file-pdf"></i> Ver</a>
-            </div>';
-            $data[$i]['total'] = number_format($data[$i]['total'], 2, '.', ',');
+            // codigo para mostrar el estado de la venta
+            if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge badge-success">Completado</span>';
+                // codigo para agregar botones de editar y eliminar a cada venta que devuelvo
+                $data[$i]['acciones'] = '<div>
+                <button class="btn btn-warning" onclick="anularVenta('.$data[$i]['id'].')"><i class="fa fa-ban"></i></button>
+                <a class="btn btn-danger" href="'.base_url."Ventas/generarPdfVenta/".$data[$i]['id'].'" target="_blank"><i class="fa fa-file-pdf"></i> Ver</a>
+                </div>';
+                $data[$i]['total'] = number_format($data[$i]['total'], 2, '.', ',');
+             }else{
+                $data[$i]['estado'] = '<span class="badge badge-danger">Anulado</span>';
+                // codigo para agregar botones de reactivar a cada venta que devuelvo
+                $data[$i]['acciones'] = '<div>
+                <a class="btn btn-danger" href="'.base_url."Ventas/generarPdfCompra/".$data[$i]['id'].'" target="_blank"><i class="fa fa-file-pdf"></i> Ver</a>
+                </div>';
+                $data[$i]['total'] = number_format($data[$i]['total'], 2, '.', ',');
+             }          
         }
 
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -346,6 +359,24 @@ class Ventas extends Controller {
             }     
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function anularVenta($id_venta){
+        $data = $this->model->deleteVenta($id_venta);
+        // reintegro la cantidad al anular la venta
+        foreach ($data as $row) {
+            $stock_actual = $this->model->getProductos($row['id_producto']);
+            $stock = $stock_actual['cantidad'] + $row['cantidad'];
+            $this->model->actualizarStock($stock, $row['id_producto']);
+        }
+        $anular = $this->model->anularVenta($id_venta);
+        if ($anular == 'ok') {
+            $msg = array('msg' => 'Venta anulada', 'icono' => 'success');
+        } else {
+            $msg = array('msg' => 'Error al anular la Venta', 'icono' => 'error');
+        }
+        echo json_encode($msg);
         die();
     }
 }
