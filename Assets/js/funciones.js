@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos, t_historial_c, t_historial_v, tblCajas;
+let tblUsuarios, tblClientes, tblMedidas, tblCategorias, tblProductos, t_historial_c, t_historial_v, tblCajas, tblArqueoCajas;
 //verificar si se cargo, codigo extraido de https://datatables.net/manual/ajax
 document.addEventListener("DOMContentLoaded", function(){
     //para cargar el combobox con select2
@@ -533,6 +533,9 @@ document.addEventListener("DOMContentLoaded", function(){
         },       
         {
             'data' : 'fecha'
+        },      
+        {
+            'data' : 'hora'
         },       
         {
             'data' : 'estado'
@@ -620,6 +623,98 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             'data' : 'acciones'
         }      
+        ],
+        language: {
+            "url": base_url + "Assets/json/Spanish.json"
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [{
+                    //Botón para Excel
+                    extend: 'excelHtml5',
+                    footer: true,
+                    title: 'Archivo',
+                    filename: 'Export_File',
+     
+                    //Aquí es donde generas el botón personalizado
+                    text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
+                },
+                //Botón para PDF
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para copiar
+                {
+                    extend: 'copyHtml5',
+                    footer: true,
+                    title: 'Reporte de usuarios',
+                    filename: 'Reporte de usuarios',
+                    text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                //Botón para print
+                {
+                    extend: 'print',
+                    footer: true,
+                    filename: 'Export_File_print',
+                    text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
+                },
+                //Botón para cvs
+                {
+                    extend: 'csvHtml5',
+                    footer: true,
+                    filename: 'Export_File_csv',
+                    text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
+                },
+                {
+                    extend: 'colvis',
+                    text: '<span class="badge  badge-info"><i class="fas fa-columns"></i></span>',
+                    postfixButtons: ['colvisRestore']
+                }
+        ]
+    } );
+
+     // para cargar la tabla de cajas
+     tblArqueoCajas = $('#tblArqueoCajas').DataTable( {
+        ajax: {
+            url: base_url + "Cajas/listarArqueoCajas",
+            dataSrc: ''
+        },
+        columns: [{
+            'data' : 'id'
+        },
+        {
+            'data' : 'monto_inicial'
+        },       
+        {
+            'data' : 'monto_final'
+        },
+        {
+            'data' : 'fecha_apertura'
+        },       
+        {
+            'data' : 'fecha_cierre'
+        },
+        {
+            'data' : 'total_ventas'
+        },       
+        {
+            'data' : 'monto_total'
+        },    
+        {
+            'data' : 'estado'
+        } 
         ],
         language: {
             "url": base_url + "Assets/json/Spanish.json"
@@ -2341,7 +2436,6 @@ function reactivarCaja(id){
 function editarCaja(id) {
     document.getElementById("title").innerHTML = "Actualizar Caja";
     document.getElementById("btnAccion").innerHTML = "Actualizar";
-    // peticion mediante ajax si los campos no estan vacios
     const url = base_url + "Cajas/editar/"+id;
     const http = new XMLHttpRequest();
     http.open("GET", url, true);
@@ -2356,4 +2450,78 @@ function editarCaja(id) {
         }
     }
     
+}
+
+// funcion para mostrar el frm de arqueo de caja
+function mostrarFrmArqueoCaja(){    
+    document.getElementById('monto_inicial').value = '';// para limpiar el campo
+    document.getElementById('ocultar_campos').classList.add('d-none');// oculto los campos necesarios para cerrar la caja
+    document.getElementById('btnAccion').textContent = 'Abrir Caja';
+    $("#abrir_caja").modal("show");
+}
+
+function abrirArqueoCaja(e){
+    e.preventDefault();
+    const monto_inicial = document.getElementById('monto_inicial').value;
+    if (monto_inicial == '') {
+        alertas('Ingrese el monto inicial', 'warning')
+    }else{
+        const frm = document.getElementById('frmAbrirCaja');
+        const url = base_url + "Cajas/abrirArqueo";
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            // if que verifica si esta listo
+            if (this.readyState == 4 && this.status == 200) {           
+                const res = JSON.parse(this.responseText);
+                alertas(res.msg, res.icono);
+                tblArqueoCajas.ajax.reload();//recargar la tabla 
+                $("#abrir_caja").modal("hide");
+            }
+        }
+    }
+}
+
+function cerrarArqueoCaja(){
+    const url = base_url + "Cajas/getVentas";
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {       
+            const res = JSON.parse(this.responseText);
+            document.getElementById('monto_final').value = res.monto_total.total;
+            document.getElementById('total_ventas').value = res.total_ventas.total;
+            document.getElementById('monto_inicial').value = res.inicial.monto_inicial;
+            document.getElementById('monto_general').value = res.monto_general;
+            document.getElementById('id').value = res.inicial.id;
+            document.getElementById('ocultar_campos').classList.remove('d-none');
+            document.getElementById('btnAccion').textContent = 'Cerrar Caja';
+            $("#abrir_caja").modal("show");
+        }
+    }
+}
+
+/*---------------------------------------------------------------- FUNCIONES PERMISOS -------------------------------- */
+
+function registrarPermisos(e) {
+    e.preventDefault();
+    const url = base_url + "Usuarios/registrarPermiso";
+    const frm = document.getElementById('formulario');
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+    http.onreadystatechange = function () {
+        // if que verifica si esta listo
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            if (res != '') {
+                alertas(res.msg, res.icono);
+            } else {
+                alertas('Error no identificado', 'error');
+            }
+        }
+    }
 }

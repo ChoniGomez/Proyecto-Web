@@ -11,7 +11,13 @@ class Categorias extends Controller {
     }
 
     public function index(){
-        $this->views->getView($this, "index");
+        $id_usuario = $_SESSION['id_usuario'];
+        $verificar = $this->model->verficarPermisos($id_usuario, 'categorias');//verifico si el usuario tiene acceso a la ventana
+        if (!empty($verificar)|| $id_usuario == 1) {// tambien pregunto si es superusuario
+            $this->views->getView($this, "index");
+        } else {
+            header('Location: '.base_url.'Errores/permisos');
+        }  
     }
 
 

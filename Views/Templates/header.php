@@ -10,6 +10,7 @@
         <link href="<?php echo base_url;?>Assets/css/styles.css" rel="stylesheet" />
         <link href="<?php echo base_url;?>Assets/DataTables/datatables.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?php echo base_url;?>Assets/css/select2.min.css" rel="stylesheet"/>
+        <link href="<?php echo base_url;?>Assets/css/estilos.css" rel="stylesheet"/>
         <script src="<?php echo base_url;?>Assets/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -41,8 +42,18 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?php echo base_url; ?>Usuarios"><i class="fas fa-user m-2"></i> Usuarios</a>
-                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box m-2"></i> Cajas</a>
                                     <a class="nav-link" href="<?php echo base_url; ?>Administracion"><i class="fas fa-tools m-2"></i> Configuración</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCaja" aria-expanded="false" aria-controls="collapseCaja">
+                                <div class="sb-nav-link-icon"><i class="fas fa-box text-primary"></i></div>
+                                Cajas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-primary"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseCaja" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box m-2"></i> Cajas</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas/indexArqueoCaja"><i class="fas fa-tools m-2"></i> Arqueo Caja</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="<?php echo base_url; ?>Clientes" >

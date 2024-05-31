@@ -11,7 +11,8 @@
                         <th>#</th>
                         <th>Cliente</th>
                         <th>Total</th>
-                        <th>Fecha y Hora</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>

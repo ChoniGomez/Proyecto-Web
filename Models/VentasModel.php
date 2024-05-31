@@ -148,9 +148,9 @@ class VentasModel extends Query{
         return $res;
     }
 
-    public function registrarVenta(int $id_cliente, string $total){
-        $sql = "INSERT INTO ventas (id_cliente, total) VALUES (?,?)";
-        $datos = array ($id_cliente, $total);
+    public function registrarVenta(int $id_usuario, int $id_cliente, string $total, string $fecha, string $hora){
+        $sql = "INSERT INTO ventas (id_usuario, id_cliente, total, fecha, hora) VALUES (?,?,?,?,?)";
+        $datos = array ($id_usuario, $id_cliente, $total, $fecha, $hora);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "ok";
@@ -261,6 +261,18 @@ class VentasModel extends Query{
             $res = 'error';
         }        
         return $res;
+    }
+
+    public function verificarCaja(int $id_usuario){
+        $sql = "SELECT * FROM cierre_cajas WHERE id_usuario = $id_usuario AND estado = 1";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    public function verficarPermisos(int $id_usuario, string $nombre_permiso){
+        $sql = "SELECT p.id, p.permiso, d.id, d.id_usuario, d.id_permiso FROM permisos p INNER JOIN detalles_permisos d ON p.id = d.id_permiso WHERE d.id_usuario = $id_usuario AND p.permiso = '$nombre_permiso'";
+        $data = $this->selectAll($sql);
+        return $data;
     }
 }
 ?>

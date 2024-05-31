@@ -166,30 +166,37 @@ class Ventas extends Controller {
 
     public function registrarVenta($id_cliente) {
         $id_usuario = $_SESSION['id_usuario'];
-        $total = $this->model->calcularVentas($id_usuario);
-        $data = $this->model->registrarVenta($id_cliente, $total['total']);
-        if ($data == 'ok') {
-            $detalle = $this->model->getDetallesVentas($id_usuario);
-            $id_venta = $this->model->idVenta();
-            foreach ($detalle as $row) {
-                $cantidad = $row['cantidad'];
-                $descuento = $row['descuento'];
-                $precio = $row['precio'];
-                $id_producto = $row['id_producto'];
-                $sub_total = ($cantidad * $precio) - $descuento;
-                $this->model->registrarDetalleVenta($id_venta['id'], $id_producto, $cantidad, $descuento, $precio, $sub_total);
-                // incrementar el stock del producto
-                $stock_actual = $this->model->getProductos($id_producto);
-                $stock = $stock_actual['cantidad'] - $cantidad;//si se vende, disminuye el stock
-                $this->model->actualizarStock($stock, $id_producto);
+        $cajaVerificar = $this->model->verificarCaja($id_usuario);
+        if (empty($cajaVerificar)) {
+            $msg = array('msg' => 'La caja esta cerrada', 'icono' => 'warning');
+        }else {
+            $fecha = date('Y-m-d');
+            $hora = date('H:i:s');
+            $total = $this->model->calcularVentas($id_usuario);
+            $data = $this->model->registrarVenta($id_usuario, $id_cliente, $total['total'], $fecha, $hora);
+            if ($data == 'ok') {
+                $detalle = $this->model->getDetallesVentas($id_usuario);
+                $id_venta = $this->model->idVenta();
+                foreach ($detalle as $row) {
+                    $cantidad = $row['cantidad'];
+                    $descuento = $row['descuento'];
+                    $precio = $row['precio'];
+                    $id_producto = $row['id_producto'];
+                    $sub_total = ($cantidad * $precio) - $descuento;
+                    $this->model->registrarDetalleVenta($id_venta['id'], $id_producto, $cantidad, $descuento, $precio, $sub_total);
+                    // incrementar el stock del producto
+                    $stock_actual = $this->model->getProductos($id_producto);
+                    $stock = $stock_actual['cantidad'] - $cantidad;//si se vende, disminuye el stock
+                    $this->model->actualizarStock($stock, $id_producto);
+                }
+                $vaciarDetalle = $this->model->vaciarDetalleVentasTemp($id_usuario);
+                if ($vaciarDetalle == 'ok') {
+                    $msg = array('msg' => 'ok', 'id_venta' => $id_venta['id']);
+                }
+            } else {
+                $msg = 'Error al registrar la venta';
             }
-            $vaciarDetalle = $this->model->vaciarDetalleVentasTemp($id_usuario);
-            if ($vaciarDetalle == 'ok') {
-                $msg = array('msg' => 'ok', 'id_venta' => $id_venta['id']);
-            }
-        } else {
-            $msg = 'Error al registrar la venta';
-        }
+        }        
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }

@@ -55,7 +55,7 @@
                         <label for="caja">Caja</label>
                         <select id="caja" class="form-control" name="caja">
                             <?php foreach ($data['cajas'] as $row) {?>
-                            <option value="<?php echo $row['id'];?>"><?php echo $row['caja']; ?></option>
+                            <option value="<?php echo $row['id'];?>"><?php echo $row['nombre_caja']; ?></option>
                             <?php } ?>
                         </select>
                     </div>

@@ -11,8 +11,15 @@ class Administracion extends Controller {
     }
 
     public function index(){
-        $data = $this->model->getEmpresa();
-        $this->views->getView($this, "index", $data);
+        $id_usuario = $_SESSION['id_usuario'];
+        $verificar = $this->model->verficarPermisos($id_usuario, 'configuracion');//verifico si el usuario tiene acceso a la ventana de configuracion
+        if (!empty($verificar) || $id_usuario == 1) {// tambien pregunto si es superusuario
+            $data = $this->model->getEmpresa();
+            $this->views->getView($this, "index", $data);
+        } else {
+            header('Location: '.base_url.'Errores/permisos');
+        }
+        
     }
 
     public function home(){

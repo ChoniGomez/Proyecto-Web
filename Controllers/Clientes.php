@@ -11,7 +11,13 @@ class Clientes extends Controller {
     }
 
     public function index(){
-        $this->views->getView($this, "index");
+        $id_usuario = $_SESSION['id_usuario'];
+        $verificar = $this->model->verficarPermisos($id_usuario, 'clientes');//verifico si el usuario tiene acceso a la ventana
+        if (!empty($verificar)|| $id_usuario == 1) {// tambien pregunto si es superusuario
+            $this->views->getView($this, "index");
+        } else {
+            header('Location: '.base_url.'Errores/permisos');
+        }        
     }
 
 
@@ -39,36 +45,42 @@ class Clientes extends Controller {
     }
 
     public function registrar() {
-        $dni = $_POST['dni'];
-        $nombre = $_POST['nombre'];
-        $telefono = $_POST['telefono'];
-        $direccion = $_POST['direccion'];
-        $id = $_POST['id'];
-        if (empty($dni) || empty($nombre) || empty($telefono) || empty($direccion)) {
-            $msg = "Todos los campos son obligatorios";
-        }else {
-            if ($id =="") {// en este caso se agrega uno nuevo xq no tiene id
-                // aca se crea el cliente
-                $data = $this->model->registrarCliente($dni, $nombre, $telefono, $direccion);
-                // verificar si el usuario se creo de manera exitosa
-                if ($data == "ok") {
-                    $msg = "si";
-                }else if($data == "existe") {
-                    $msg = "El DNI ya existe";
-                }else {
-                    $msg = "Error al registrar el cliente";
-                }                
-            }else{
-                // aca se modifica el cliente
-                $data = $this->model->modificarCliente($dni, $nombre, $telefono, $direccion, $id);
-                // verificar si el cliente se modifico de manera exitosa
-                if ($data == "modificado") {
-                    $msg = "modificado";
-                }else {
-                    $msg = "Error al modificar el cliente";
+        $id_usuario = $_SESSION['id_usuario'];
+        $verificar = $this->model->verficarPermisos($id_usuario, 'registrar_clientes');//verifico si el usuario tiene acceso a la ventana
+        if (!empty($verificar)|| $id_usuario == 1) {// tambien pregunto si es superusuario 
+            $dni = $_POST['dni'];
+            $nombre = $_POST['nombre'];
+            $telefono = $_POST['telefono'];
+            $direccion = $_POST['direccion'];
+            $id = $_POST['id'];
+            if (empty($dni) || empty($nombre) || empty($telefono) || empty($direccion)) {
+                $msg = "Todos los campos son obligatorios";
+            }else {
+                if ($id =="") {// en este caso se agrega uno nuevo xq no tiene id
+                    // aca se crea el cliente
+                    $data = $this->model->registrarCliente($dni, $nombre, $telefono, $direccion);
+                    // verificar si el usuario se creo de manera exitosa
+                    if ($data == "ok") {
+                        $msg = "si";
+                    }else if($data == "existe") {
+                        $msg = "El DNI ya existe";
+                    }else {
+                        $msg = "Error al registrar el cliente";
+                    }                
+                }else{
+                    // aca se modifica el cliente
+                    $data = $this->model->modificarCliente($dni, $nombre, $telefono, $direccion, $id);
+                    // verificar si el cliente se modifico de manera exitosa
+                    if ($data == "modificado") {
+                        $msg = "modificado";
+                    }else {
+                        $msg = "Error al modificar el cliente";
+                    }
                 }
+                   
             }
-               
+        } else {
+            header('Location: '.base_url.'Errores/permisos');
         }
         echo json_encode($msg);
         die();

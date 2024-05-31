@@ -11,9 +11,18 @@ class Cajas extends Controller {
     }
 
     public function index(){
-        $this->views->getView($this, "index");
+        $id_usuario = $_SESSION['id_usuario'];
+        $verificar = $this->model->verficarPermisos($id_usuario, 'cajas');//verifico si el usuario tiene acceso a la ventana
+        if (!empty($verificar)|| $id_usuario == 1) {// tambien pregunto si es superusuario
+            $this->views->getView($this, "index");
+        } else {
+            header('Location: '.base_url.'Errores/permisos');
+        }  
     }
 
+    public function indexArqueoCaja(){
+        $this->views->getView($this, "arqueoCajas");
+    }
 
     public function listarCajas(){
         $data = $this->model->getCajas();
@@ -95,6 +104,70 @@ class Cajas extends Controller {
             $msg = "Error al reactivar la caja";
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function abrirArqueo() {
+        $monto_inicial = $_POST['monto_inicial'];
+        $id = $_POST['id'];
+        $fecha_apertura = date('Y-m-d');
+        $id_usuario = $_SESSION['id_usuario'];
+        if (empty($monto_inicial) || empty($fecha_apertura)) {
+            $msg = "Todos los campos son obligatorios";
+        }else {
+            if ($id == '') {
+                $data = $this->model->registrarArqueo($id_usuario, $monto_inicial, $fecha_apertura);
+                // verificar si la caja se creo de manera exitosa
+                if ($data == "ok") {
+                    $msg = array('msg' => 'Caja abierta con exito', 'icono' => 'success');
+                }else if($data == "existe") {
+                    $msg = array('msg' => 'La caja ya esta abierta', 'icono' => 'warning');
+                }else {
+                    $msg = array('msg' => 'Error al abrir la caja', 'icono' => 'error');
+                }     
+            }else{//cierro la caja (actualizar el estado)
+                $id_usuario = $_SESSION['id_usuario'];
+                $data['monto_total'] = $this->model->getVentas($id_usuario);
+                $monto_final = $data['monto_total']['total'];
+                $data['total_ventas'] = $this->model->getTotalVentas($id_usuario);
+                $total_ventas = $data['total_ventas']['total'];
+                $data['inicial'] = $this->model->getMontoInicial($id_usuario);
+                $general = $monto_final + $data['inicial']['monto_inicial'];
+                $data = $this->model->actualizarArqueo($monto_final, $fecha_apertura, $total_ventas, $general, $data['inicial']['id']);
+                // verificar si la caja se creo de manera exitosa
+                if ($data == "ok") {
+                    $this->model->actualizarApertura($id_usuario);
+                    $msg = array('msg' => 'Caja cerrada con exito', 'icono' => 'success');
+                }else{
+                    $msg = array('msg' => 'Error al cerrar la caja', 'icono' => 'error');
+                }     
+            }                   
+        }
+        echo json_encode($msg);
+        die();
+    }
+
+    public function listarArqueoCajas(){
+        $data = $this->model->getCierreCajas();
+        for ($i=0; $i < count($data); $i++) { 
+             // codigo para mostrar el estado de la caja
+             if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge badge-success">Abierta</span>';}
+                else{
+                $data[$i]['estado'] = '<span class="badge badge-danger">Cerrada</span>';
+            }
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getVentas(){
+        $id_usuario = $_SESSION['id_usuario'];
+        $data['monto_total'] = $this->model->getVentas($id_usuario);
+        $data['total_ventas'] = $this->model->getTotalVentas($id_usuario);
+        $data['inicial'] = $this->model->getMontoInicial($id_usuario);
+        $data['monto_general'] = $data['monto_total']['total'] + $data['inicial']['monto_inicial'];
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 }

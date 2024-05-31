@@ -103,5 +103,47 @@ class UsuariosModel extends Query{
         $data = $this->save($sql, $datos);
         return $data;
     }
+
+    public function getPermisos(){
+        $sql = "SELECT * FROM permisos";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    public function registrarPermiso(int $id_usuario, int $id_permiso){
+        $sql = "INSERT INTO detalles_permisos (id_usuario, id_permiso) VALUES (?,?)";
+        $datos = array($id_usuario, $id_permiso);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $msg = 'ok';
+        } else {
+            $msg = 'error';
+        }
+        return $msg;
+    }
+
+    public function eliminarPermisos(int $id_usuario){
+        $sql = "DELETE FROM detalles_permisos WHERE id_usuario = ?";
+        $datos = array($id_usuario);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $msg = 'ok';
+        } else {
+            $msg = 'error';
+        }
+        return $msg;
+    }
+
+    public function getDetallesPermisos(int $id_usuario){
+        $sql = "SELECT * FROM detalles_permisos WHERE id_usuario = $id_usuario";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    public function verficarPermisos(int $id_usuario, string $nombre_permiso){
+        $sql = "SELECT p.id, p.permiso, d.id, d.id_usuario, d.id_permiso FROM permisos p INNER JOIN detalles_permisos d ON p.id = d.id_permiso WHERE d.id_usuario = $id_usuario AND p.permiso = '$nombre_permiso'";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
 }
 ?>
