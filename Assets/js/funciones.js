@@ -138,8 +138,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Clientes',
+                    filename: 'Reporte de Clientes',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -149,8 +149,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Clientes',
+                    filename: 'Reporte de Clientes',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -221,8 +221,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Medidas',
+                    filename: 'Reporte de Medidas',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -232,8 +232,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Medidas',
+                    filename: 'Reporte de Medidas',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -301,8 +301,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Categorias',
+                    filename: 'Reporte de Categorias',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -312,8 +312,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Categorias',
+                    filename: 'Reporte de Categorias',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -369,6 +369,20 @@ document.addEventListener("DOMContentLoaded", function(){
             'data' : 'estado'
         },
         {
+            'data': 'fecha_modificacion',
+            'render': function(data, type, row) {
+                // Convierte la fecha a formato DD/MM/YYYY HH:MM:SS
+                var date = new Date(data);
+                var day = ("0" + date.getDate()).slice(-2);
+                var month = ("0" + (date.getMonth() + 1)).slice(-2); // Los meses comienzan desde 0
+                var year = date.getFullYear();
+                var hours = ("0" + date.getHours()).slice(-2);
+                var minutes = ("0" + date.getMinutes()).slice(-2);
+                var seconds = ("0" + date.getSeconds()).slice(-2);
+                return day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
+            }
+        },
+        {
             'data' : 'acciones'
         }    
         ],
@@ -393,8 +407,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Productos',
+                    filename: 'Reporte de Productos',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -404,8 +418,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Productos',
+                    filename: 'Reporte de Productos',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -446,7 +460,18 @@ document.addEventListener("DOMContentLoaded", function(){
             'data' : 'total',
         },
         {
-            'data' : 'fecha'
+            'data': 'fecha',
+            'render': function(data, type, row) {
+                // Convierte la fecha a formato DD/MM/YYYY HH:MM:SS
+                var date = new Date(data);
+                var day = ("0" + date.getDate()).slice(-2);
+                var month = ("0" + (date.getMonth() + 1)).slice(-2); // Los meses comienzan desde 0
+                var year = date.getFullYear();
+                var hours = ("0" + date.getHours()).slice(-2);
+                var minutes = ("0" + date.getMinutes()).slice(-2);
+                var seconds = ("0" + date.getSeconds()).slice(-2);
+                return day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
+            }
         },
         {
             'data' : 'estado'
@@ -476,8 +501,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Historial de Compras',
+                    filename: 'Reporte de Historial de Compras',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -487,8 +512,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Historial de Compras',
+                    filename: 'Reporte de Historial de Compras',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -565,8 +590,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Historial de Ventas',
+                    filename: 'Reporte de Historial de Ventas',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -576,8 +601,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Historial de Ventas',
+                    filename: 'Reporte de Historial de Ventas',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -645,8 +670,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Cajas',
+                    filename: 'Reporte de Cajas',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -656,8 +681,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Cajas',
+                    filename: 'Reporte de Cajas',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -737,8 +762,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     extend: 'pdfHtml5',
                     download: 'open',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Arqueo de Cajas',
+                    filename: 'Reporte de Arqueo de Cajas',
                     text: '<span class="badge  badge-danger"><i class="fas fa-file-pdf"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -748,8 +773,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'copyHtml5',
                     footer: true,
-                    title: 'Reporte de usuarios',
-                    filename: 'Reporte de usuarios',
+                    title: 'Reporte de Arqueo de Cajas',
+                    filename: 'Reporte de Arqueo de Cajas',
                     text: '<span class="badge  badge-primary"><i class="fas fa-copy"></i></span>',
                     exportOptions: {
                         columns: [0, ':visible']
@@ -1536,17 +1561,61 @@ function frmProducto() {
     deleteImg();
 }
 
+
+/// codigo para actualizar en tiempo real el precio del iva y el precio de venta
+if (document.getElementById("tblProductos")) {//si existe va a cargar los detalles
+    document.addEventListener("DOMContentLoaded", function () {
+        const precioCompraInput = document.getElementById("precio_compra");
+        const ivaInput = document.getElementById("iva");
+        const precioIvaInput = document.getElementById("precio_iva");
+        const porcentajeGananciaInput = document.getElementById("porcentaje_ganancia");
+        const precioVentaInput = document.getElementById("precio_venta");
+
+        // Función para actualizar el precio con IVA
+        function actualizarPrecioConIVA() {
+            let precioCompra = parseFloat(precioCompraInput.value) || 0;
+            let iva = parseFloat(ivaInput.value) || 0;
+            let precioConIVA = precioCompra + (precioCompra * iva / 100);
+            precioIvaInput.value = precioConIVA.toFixed(2);
+            actualizarPrecioVenta(); // Se actualiza también el precio de venta
+        }
+
+        // Función para actualizar el precio de venta
+        function actualizarPrecioVenta() {
+            let precioConIVA = parseFloat(precioIvaInput.value) || 0;
+            let porcentajeGanancia = parseFloat(porcentajeGananciaInput.value) || 0;
+            let precioVenta = precioConIVA + (precioConIVA * porcentajeGanancia / 100);
+            precioVentaInput.value = precioVenta.toFixed(2);
+        }
+
+        // Detectar cambios en Precio Compra y IVA
+        precioCompraInput.addEventListener("input", actualizarPrecioConIVA);
+        ivaInput.addEventListener("input", actualizarPrecioConIVA);
+
+        // Detectar cambios en Porcentaje de Ganancia
+        porcentajeGananciaInput.addEventListener("input", actualizarPrecioVenta);
+    });
+}
+
+
+
+
+
 // funcion para registrar un producto
 function registrarProducto(e) {
     e.preventDefault();
     const codigo = document.getElementById("codigo");
+    const codigo_proveedor = document.getElementById("codigo_proveedor");
     const descripcion = document.getElementById("descripcion");
+    const iva = document.getElementById("iva");
+    const precio_iva = document.getElementById("precio_iva");
+    const porcentaje_ganancia = document.getElementById("porcentaje_ganancia");
     const precio_compra = document.getElementById("precio_compra");
     const precio_venta = document.getElementById("precio_venta");
     const id_medida = document.getElementById("medida");
     const id_cat = document.getElementById("categoria");
     // verificar si los campos estan vacios
-    if (codigo.value == "" || descripcion.value == "" || precio_compra.value == ""|| precio_venta.value == ""|| id_medida.value == ""|| id_cat.value == "") {
+    if (porcentaje_ganancia.value == "" || precio_iva.value == "" || iva.value == "" || codigo_proveedor.value == "" || codigo.value == "" || descripcion.value == "" || precio_compra.value == ""|| precio_venta.value == ""|| id_medida.value == ""|| id_cat.value == "") {
         Swal.fire({
             position: "center",
             icon: "error",
@@ -1612,10 +1681,14 @@ function editarProd(id) {
     http.onreadystatechange = function () {
         // if que verifica si esta listo
         if (this.readyState == 4 && this.status == 200) {
-            const res = JSON.parse(this.responseText);            
+            const res = JSON.parse(this.responseText);
             document.getElementById("id").value = res.id;// este id esta oculto en el formulario
             document.getElementById("codigo").value = res.codigo;
+            document.getElementById("codigo_proveedor").value = res.codigo_proveedor;
             document.getElementById("descripcion").value = res.descripcion;
+            document.getElementById("iva").value = res.iva;
+            document.getElementById("precio_iva").value = res.precio_iva;
+            document.getElementById("porcentaje_ganancia").value = res.porcentaje_ganancia;
             document.getElementById("precio_compra").value = res.precio_compra;
             document.getElementById("precio_venta").value = res.precio_venta;
             document.getElementById("medida").value = res.id_medida;
@@ -1677,7 +1750,7 @@ function eliminarProd(id){
       });      
 }
 
-// funcion para reactivar un usuario
+// funcion para reactivar un producto
 function reactivarProd(id){
     Swal.fire({
         title: "Estas seguro de reactivar el Producto?",
@@ -2017,10 +2090,10 @@ function calcularPrecioVenta(e) {
                     const res = JSON.parse(this.responseText); 
                     if (res == 'ok') {
                         frm.reset();
-                        cargarDetallesVentas(); // aca carga los detalles de la compra
+                        cargarDetallesVentas(); // aca carga los detalles de la venta
                     } else if (res == 'modificado'){
                         frm.reset();
-                        cargarDetallesVentas(); // aca carga los detalles de la compra
+                        cargarDetallesVentas(); // aca carga los detalles de la venta
                     }
                     document.getElementById('cantidad').setAttribute('disabled', 'disabled');
                     document.getElementById('codigo').focus();
@@ -2031,7 +2104,7 @@ function calcularPrecioVenta(e) {
 }
 
 if (document.getElementById("tblDetallesVentas")) {//si existe va a cargar los detalles
-    cargarDetallesVentas(); // aca carga los detalles de la compra a cada rato
+    cargarDetallesVentas(); // aca carga los detalles de la venta a cada rato
 }
 
 function cargarDetallesVentas() {
@@ -2130,7 +2203,7 @@ function generarVenta() {
                     const res = JSON.parse(this.responseText);
                     if (res.msg == "ok") {
                         alertas("Venta registrada con éxito!","success");
-                        /// Aqui se muestra el PDF de la compra cada vez que generamos una compra
+                        /// Aqui se muestra el PDF de la venta cada vez que generamos una venta
                         const ruta = base_url + 'Ventas/generarPdfVenta/' + res.id_venta;
                         window.open(ruta);
                         // recargar la pagina despues de 2 segundos

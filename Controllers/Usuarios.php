@@ -175,17 +175,24 @@ class Usuarios extends Controller {
     }
 
     public function permisos($id){
-        if (empty($_SESSION['activo'])) {//verifico si la session no esta activada
-            header("location: ".base_url);
-        }
-        $data['datos'] = $this->model->getPermisos();
-        $data['id_usuario'] = $id;
-        $permisos = $this->model->getDetallesPermisos($id);
-        $data['asignados'] = array();
-        foreach ($permisos as $permiso) {
-            $data['asignados'][$permiso['id_permiso']] = true;// para activar los checkbox
-        }
-        $this->views->getView($this, "permisos", $data);
+        $id_usuario = $_SESSION['id_usuario'];
+        $verificar = $this->model->verficarPermisos($id_usuario, 'permisos');//verifico si el usuario tiene acceso a la ventana
+        if (!empty($verificar)|| $id_usuario == 1) {// tambien pregunto si es superusuario
+            if (empty($_SESSION['activo'])) {//verifico si la session no esta activada
+                header("location: ".base_url);
+            }
+            $data['datos'] = $this->model->getPermisos();
+            $data['id_usuario'] = $id;
+            $permisos = $this->model->getDetallesPermisos($id);
+            $data['asignados'] = array();
+            foreach ($permisos as $permiso) {
+                $data['asignados'][$permiso['id_permiso']] = true;// para activar los checkbox
+            }
+            $this->views->getView($this, "permisos", $data);
+        } else {
+            header('Location: '.base_url.'Errores/permisos');
+        }        
+        
     }
 
     public function registrarPermiso(){

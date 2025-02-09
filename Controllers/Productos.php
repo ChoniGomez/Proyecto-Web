@@ -47,10 +47,16 @@ class Productos extends Controller {
 
     public function registrar() {
         $codigo = $_POST['codigo'];
+        $codigo_proveedor = $_POST['codigo_proveedor'];
+        $porcentaje_ganancia = $_POST['porcentaje_ganancia'];
         $descripcion = $_POST['descripcion'];
         $precio_compra = $_POST['precio_compra'];
+        $iva = $_POST['iva'];
+        $precio_iva = $_POST['precio_iva'];
         $precio_venta = $_POST['precio_venta'];
         $medida = $_POST['medida'];
+        $fecha_modificacion = date('Y-m-d H:i:s');// tomar la fecha actual
+        //$hora_modificacion = date('H:i:s');
         $categoria = $_POST['categoria'];
         $id = $_POST['id'];
         $img = $_FILES['imagen'];
@@ -70,7 +76,7 @@ class Productos extends Controller {
             }
             if ($id =="") {// en este caso se agrega uno nuevo xq no tiene id
                 // aca se crea el producto
-                $data = $this->model->registrarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria, $imgNombre);
+                $data = $this->model->registrarProducto($codigo, $codigo_proveedor, $descripcion, $iva, $porcentaje_ganancia, $precio_iva, $precio_compra, $precio_venta, $medida, $categoria, $imgNombre, $fecha_modificacion);
                 // verificar si el producto se creo de manera exitosa
                 if ($data == "ok") {
                     if (!empty($name)) {
@@ -90,7 +96,7 @@ class Productos extends Controller {
                     }
                 }
                 // aca se modifica el producto
-                $data = $this->model->modificarProducto($codigo, $descripcion, $precio_compra, $precio_venta, $medida, $categoria, $imgNombre, $id);
+                $data = $this->model->modificarProducto($codigo, $codigo_proveedor, $descripcion, $iva, $porcentaje_ganancia, $precio_iva, $precio_compra, $precio_venta, $medida, $categoria, $imgNombre, $fecha_modificacion, $id);
                 // verificar si el producto se modifico de manera exitosa
                 if ($data == "modificado") {
                     if (!empty($name)) {

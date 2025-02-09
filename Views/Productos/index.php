@@ -8,11 +8,12 @@
         <tr>
             <th>Id</th>
             <th>Foto</th>
-            <th>Código</th>
+            <th>Código Scanner</th>
             <th>Descripción</th>
             <th>Precio</th>
             <th>Stock</th>
             <th>Estado</th>
+            <th>Fecha Modificacion</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -33,15 +34,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="codigo">Código</label>
+                                <label for="codigo">Código de Scanner</label>
                                 <input type="hidden" id="id" name="id">
-                                <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código del producto">
+                                <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código del Scanner">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <textarea id="descripcion" class="form-control" name="descripcion" placeholder="Descripción del producto" rows="3"></textarea>
+                                <label for="codigo_proveedor">Codigo Proveedor</label>
+                                <input id="codigo_proveedor" class="form-control" type="text" name="codigo_proveedor" placeholder="Codigo del Proveedor">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -52,8 +53,26 @@
                         </div>
                         <div class="col-md-6">                          
                         <div class="form-group">
+                                <label for="iva">IVA (%)</label>
+                                <input id="iva" class="form-control" type="text" name="iva" value=21 >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                                <label for="precio_iva">Precio con IVA</label>
+                                <input id="precio_iva" class="form-control" type="text" name="precio_iva" placeholder="Precio con IVA" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">                          
+                        <div class="form-group">
+                                <label for="porcentaje_ganancia">Porcentaje de Ganancia (%)</label>
+                                <input id="porcentaje_ganancia" class="form-control" type="text" name="porcentaje_ganancia" placeholder="Numero del 0 al 100">
+                            </div>
+                        </div>
+                        <div class="col-md-6">                          
+                        <div class="form-group">
                                 <label for="precio_venta">Precio Venta</label>
-                                <input id="precio_venta" class="form-control" type="text" name="precio_venta" placeholder="Precio de venta del producto">
+                                <input id="precio_venta" class="form-control" type="text" name="precio_venta" placeholder="Precio de venta" readonly>
                             </div>
                         </div>
                     </div>
@@ -76,6 +95,12 @@
                                     <option value="<?php echo $row['id'];?>"><?php echo $row['nombre']; ?></option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea id="descripcion" class="form-control" name="descripcion" placeholder="Descripción del producto" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
