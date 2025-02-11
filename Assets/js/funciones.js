@@ -2134,7 +2134,7 @@ function cargarDetallesVentas() {
                 <td>${row['id']}</td>
                 <td>${row['descripcion']}</td>
                 <td>${row['cantidad']}</td>
-                <td><input class="form-control" placeholder="Desc" type="text" onkeyup="calcularDescuento(event, ${row['id']})"></input></td>
+                <td><input class="form-control" placeholder="Descuento en Porcentaje" type="text" onkeyup="calcularDescuento(event, ${row['id']})"></input></td>
                 <td>${row['descuento']}</td>
                 <td>${row['precio']}</td>
                 <td>${row['sub_total']}</td>

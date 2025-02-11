@@ -7,7 +7,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Iniciar Sesión</title>
-        <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url;?>Assets/img/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url;?>Assets/img/1739268815.png">
         <link href="<?php echo base_url;?>Assets/css/styles.css" rel="stylesheet" />
         <script src="<?php echo base_url;?>Assets/js/all.min.js" crossorigin="anonymous"></script>
     </head>

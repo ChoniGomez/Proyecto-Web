@@ -49,8 +49,8 @@
             <th>Id</th>
             <th>Descripción</th>
             <th>Cantidad</th>
-            <th>Aplicar</th>
-            <th>Descuento</th>
+            <th>Aplicar Descuento (%)</th>
+            <th>Descuento (%)</th>
             <th>Precio</th>
             <th>Sub Total</th>
             <th></th>

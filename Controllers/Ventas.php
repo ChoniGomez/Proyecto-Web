@@ -349,23 +349,37 @@ class Ventas extends Controller {
         die();
     }
 
-    public function calcularDescuento($datos){
+
+    public function calcularDescuento($datos) {
         $array = explode(",", $datos);
         $id = $array[0];
-        $desc = $array[1];
-        if (empty($id) || empty($desc)) {
-            $msg = array('msg' => 'Error', 'icono' => 'error');
+        $desc = floatval($array[1]); // Convertimos el porcentaje a número flotante
+    
+        if (empty($id) || $desc < 0 || $desc > 100) {
+            $msg = array('msg' => 'Error: descuento inválido', 'icono' => 'error');
         } else {
             $descuento_actual = $this->model->verificarDescuento($id);
-            $descuento_total = $descuento_actual['descuento'] + $desc;
-            $sub_total = ($descuento_actual['cantidad'] * $descuento_actual['precio']) - $descuento_total;
-            $data = $this->model->actualizarDescuento($descuento_total, $sub_total, $id);  
-            if ($data == 'ok') {
-                $msg = array('msg' => 'Descuento aplicado con éxito', 'icono' => 'success');
+    
+            $precio_total = $descuento_actual['cantidad'] * $descuento_actual['precio'];
+    
+            // Aplicar el descuento sobre el precio total
+            $descuento_total = ($precio_total * $desc) / 100;
+    
+            $sub_total = $precio_total - $descuento_total;
+    
+            if ($sub_total < 0) {
+                $msg = array('msg' => 'Error: el descuento supera el total', 'icono' => 'error');
             } else {
-                $msg = array('msg' => 'Error al aplicar el descuento', 'icono' => 'error');
-            }     
+                $data = $this->model->actualizarDescuento($descuento_total, $sub_total, $id);
+    
+                if ($data == 'ok') {
+                    $msg = array('msg' => 'Descuento aplicado con éxito', 'icono' => 'success');
+                } else {
+                    $msg = array('msg' => 'Error al aplicar el descuento', 'icono' => 'error');
+                }
+            }
         }
+        
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
