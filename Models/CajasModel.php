@@ -80,7 +80,7 @@ class CajasModel extends Query{
         $this->monto_inicial = $monto_inicial;
         $this->fecha_apertura = $fecha_apertura;
         // verifica si existe un cierre de caja para un usuario
-        $verificar = "SELECT * FROM cierre_cajas WHERE id_usuario = '$id_usuario'";
+        $verificar = "SELECT * FROM cierre_cajas WHERE id_usuario = '$id_usuario' AND estado = 1";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "INSERT INTO cierre_cajas (id_usuario, monto_inicial, fecha_apertura) VALUES (?,?,?)";

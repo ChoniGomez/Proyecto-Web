@@ -44,7 +44,7 @@
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <a href="<?php echo base_url;?>Ventas/historial_ventas" class="text-white">Ver Detalles </a>
-                <span class="text-white"><?php echo $data['ventas']['total'];?></span>
+                <span class="text-white"><?php echo $data['ventas']['total']?></span>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
                 Productos con Stock Mínimo
             </div>
             <div class="card-body">
-                <canvas id="stockMinimo" width="400" height="400"></canvas>
+                <canvas id="stockMinimo" width="690" height="690"></canvas>
             </div>
         </div>
     </div>

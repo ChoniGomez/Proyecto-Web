@@ -15,6 +15,13 @@ class VentasModel extends Query{
         return $data;
     }
 
+    public function getVentasDatos() {
+        // trae a todas las ventas
+        $sql = "SELECT COUNT(*) AS total FROM ventas where fecha = CURDATE()";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     public function getClientes() {
         // trae a todas las ventas
         $sql = "SELECT * FROM clientes WHERE estado = 1";

@@ -7,13 +7,14 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Panel de Administración</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url;?>Assets/img/1739268815.png">
         <link href="<?php echo base_url;?>Assets/css/styles.css" rel="stylesheet" />
         <link href="<?php echo base_url;?>Assets/DataTables/datatables.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?php echo base_url;?>Assets/css/select2.min.css" rel="stylesheet"/>
         <link href="<?php echo base_url;?>Assets/css/estilos.css" rel="stylesheet"/>
         <script src="<?php echo base_url;?>Assets/js/all.min.js" crossorigin="anonymous"></script>
     </head>
-    <body class="sb-nav-fixed">
+    <body class="sb-nav-fixed sb-sidenav-toggled">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="<?php echo base_url; ?>Administracion/home">Gestor Comercial</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>

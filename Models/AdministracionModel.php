@@ -44,8 +44,8 @@ class AdministracionModel extends Query{
     }
 
     public function getStockMinimo() {
-        /// muestra los primeros 10 con stock minimo de un total menor a 15
-        $sql = "SELECT * FROM productos WHERE cantidad < 15 ORDER BY cantidad DESC LIMIT 10";
+        /// muestra los primeros 10 con stock minimo de un total menor a 5
+        $sql = "SELECT * FROM productos WHERE cantidad < 5 ORDER BY cantidad DESC LIMIT 15";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -57,8 +57,9 @@ class AdministracionModel extends Query{
         return $data;
     }
 
+    //mostrar las cantidades de ventas que hay en el dia
     public function getVentas(){
-        $sql = "SELECT COUNT(*) AS total FROM ventas WHERE fecha > CURDATE()";
+        $sql = "SELECT COUNT(*) AS total FROM ventas WHERE fecha = CURDATE()";
         $data = $this->select($sql);
         return $data;
     }

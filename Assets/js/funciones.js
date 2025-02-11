@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Usuarios',
+                    filename: 'Reporte_de_Usuarios',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -71,14 +71,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Usuarios',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Usuarios_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -127,8 +127,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Clientes',
+                    filename: 'Reporte de Clientes',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -160,14 +160,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Clientes',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Clientes_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -210,8 +210,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Medidas',
+                    filename: 'Reporte_de_Medidas',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -290,8 +290,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Categorias',
+                    filename: 'Reporte_de_Categorias',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -323,14 +323,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Categorias',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Categorias_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -396,8 +396,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Productos',
+                    filename: 'Reporte_de_Productos',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -429,14 +429,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Productos',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Productos_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -490,8 +490,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Historial de Compras',
+                    filename: 'Reporte_de_Historial_de_Compras',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -523,14 +523,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Historial_de_Compras',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Historial_de_Compras_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -555,10 +555,21 @@ document.addEventListener("DOMContentLoaded", function(){
         }, 
         {
             'data' : 'total',
-        },       
-        {
-            'data' : 'fecha'
-        },      
+        },{
+            'data': 'fecha',
+            'render': function(data, type, row) {
+                var date = new Date(data + 'T00:00:00'); // Asegura que no haya problemas con la hora (añadiendo "T00:00:00")
+        
+                // Verifica si la fecha es válida
+                if (isNaN(date.getTime())) {
+                    return 'Fecha no válida';  // Si la fecha no es válida, muestra un mensaje
+                }
+        
+                // Formatea la fecha en el formato DD/MM/YYYY usando la zona horaria local
+                var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                return date.toLocaleDateString('es-AR', options); // 'es-AR' es el código para español de Argentina
+            }
+        },  
         {
             'data' : 'hora'
         },       
@@ -579,8 +590,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Historial de Ventas',
+                    filename: 'Reporte de Historial de Ventas',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -612,14 +623,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Historial_de_Ventas',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Historial_de_Ventas_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -659,8 +670,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Cajas',
+                    filename: 'Reporte_de_Cajas',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -692,14 +703,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Cajas',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Cajas_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -751,8 +762,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     //Botón para Excel
                     extend: 'excelHtml5',
                     footer: true,
-                    title: 'Archivo',
-                    filename: 'Export_File',
+                    title: 'Reporte de Arqueo de Cajas',
+                    filename: 'Reporte de Arqueo de Cajas',
      
                     //Aquí es donde generas el botón personalizado
                     text: '<span class="badge badge-success"><i class="fas fa-file-excel"></i></span>'
@@ -784,14 +795,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 {
                     extend: 'print',
                     footer: true,
-                    filename: 'Export_File_print',
+                    filename: 'Reporte_de_Arqueo_de_Cajas',
                     text: '<span class="badge badge-light"><i class="fas fa-print"></i></span>'
                 },
                 //Botón para cvs
                 {
                     extend: 'csvHtml5',
                     footer: true,
-                    filename: 'Export_File_csv',
+                    filename: 'Reporte_de_Arqueo_de_Cajas_csv',
                     text: '<span class="badge  badge-success"><i class="fas fa-file-csv"></i></span>'
                 },
                 {
@@ -2211,7 +2222,7 @@ function generarVenta() {
                             window.location.reload();
                         }, 300);
                     }else{
-                        alertas(res,"error");
+                        alertas(res.msg,"error");
                     }
                 }
             }
@@ -2282,36 +2293,65 @@ if (document.getElementById("productosMasVendidos")) {//si existe va a los grafi
     productosMasVendidos();
 }
 
+
+
+var myPieChart; // Definir una variable global para el gráfico
+
 function reporteStockMinimo() {
     const url = base_url + "Administracion/reporteStock";
     const http = new XMLHttpRequest();
     http.open("GET", url, true);
     http.send();
+
     http.onreadystatechange = function () {
-        // if que verifica si esta listo
         if (this.readyState == 4 && this.status == 200) {
-            const res = JSON.parse(this.responseText);
-            let nombre = [];
-            let cantidad = [];
-            for (let index = 0; index < res.length; index++) {
-                nombre.push(res[index]['descripcion']);
-                cantidad.push(res[index]['cantidad']);
-                
+            try {
+                const res = JSON.parse(this.responseText);
+
+                let nombre = [];
+                let cantidad = [];
+
+                res.forEach(item => {
+                    let stock = Number(item['cantidad']); // Convertimos a número
+                    if (stock <= 0) {
+                        nombre.push(`${item['descripcion']} (${stock === 0 ? "Stock 0" : stock})`);
+                        cantidad.push(1); // Evita que no se muestre en el gráfico
+                    } else {
+                        nombre.push(`${item['descripcion']} (${stock})`);
+                        cantidad.push(stock);
+                    }
+                });
+
+                var ctx = document.getElementById("stockMinimo");
+
+                window.myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: nombre,
+                        datasets: [{
+                            data: cantidad,
+                            backgroundColor: [
+                                '#007bff', '#dc3545', '#ffc107', '#28a745', 
+                                '#17a2b8', '#6f42c1', '#e83e8c', '#fd7e14',
+                                '#20c997', '#6610f2', '#ff851b', '#39CCCC',
+                                '#3D9970', '#B10DC9', '#FFDC00'
+                            ],
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error procesando los datos:", error);
             }
-            var ctx = document.getElementById("stockMinimo");
-            var myPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: nombre,
-                    datasets: [{
-                    data: cantidad,
-                    backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
-                    }],
-                },
-            });
         }
-    }
+    };
 }
+
+
 
 function productosMasVendidos() {
     const url = base_url + "Administracion/productosMasVendidos";
@@ -2564,6 +2604,7 @@ function cerrarArqueoCaja(){
     http.onreadystatechange = function () {
         // if que verifica si esta listo
         if (this.readyState == 4 && this.status == 200) {       
+            //console.log(this.responseText);
             const res = JSON.parse(this.responseText);
             document.getElementById('monto_final').value = res.monto_total.total;
             document.getElementById('total_ventas').value = res.total_ventas.total;
@@ -2598,3 +2639,9 @@ function registrarPermisos(e) {
         }
     }
 }
+
+/*---------------------------------------------------------------- FUNCIONES BARRA LATERAL IZQUIERDA -------------------------------- */
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.body.classList.add("sb-sidenav-toggled"); // Contrae la barra lateral al cargar
+});

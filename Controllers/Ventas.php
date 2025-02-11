@@ -170,6 +170,7 @@ class Ventas extends Controller {
         if (empty($cajaVerificar)) {
             $msg = array('msg' => 'La caja esta cerrada', 'icono' => 'warning');
         }else {
+            date_default_timezone_set('America/Argentina/Buenos_Aires');
             $fecha = date('Y-m-d');
             $hora = date('H:i:s');
             $total = $this->model->calcularVentas($id_usuario);

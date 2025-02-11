@@ -55,8 +55,8 @@ class Productos extends Controller {
         $precio_iva = $_POST['precio_iva'];
         $precio_venta = $_POST['precio_venta'];
         $medida = $_POST['medida'];
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
         $fecha_modificacion = date('Y-m-d H:i:s');// tomar la fecha actual
-        //$hora_modificacion = date('H:i:s');
         $categoria = $_POST['categoria'];
         $id = $_POST['id'];
         $img = $_FILES['imagen'];

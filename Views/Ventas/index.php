@@ -64,14 +64,21 @@
         .<div class="form-group">
             <label for="cliente">Seleccionar Cliente</label>
             <select id="cliente" class="form-control" name="cliente">
-                <?php 
-                $ultimoId = end($data)['id']; // Obtiene el ID de la última opción
-                foreach ($data as $row) { 
-                $selected = ($row['id'] == $ultimoId) ? 'selected' : ''; // Marca la última opción como seleccionada
-                ?>
-                <option value="<?php echo $row['id']; ?>" <?php echo $selected; ?>>
-                    <?php echo $row['nombre']; ?>
-                </option>
+            <?php 
+                $selectedId = null;
+
+                // Buscar el ID de la opción "Ninguno"
+                foreach ($data as $row) {
+                    if ($row['nombre'] === "Ninguno") {
+                        $selectedId = $row['id'];
+                        break;
+                    }
+                }?>
+
+                <?php foreach ($data as $row) { ?>
+                    <option value="<?php echo $row['id']; ?>" <?php echo ($row['id'] == $selectedId) ? 'selected' : ''; ?>>
+                        <?php echo $row['nombre']; ?>
+                    </option>
                 <?php } ?>
             </select>
         </div>
